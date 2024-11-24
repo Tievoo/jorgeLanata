@@ -2,6 +2,7 @@ import { Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
 import { readFileSync } from "fs";
 import { buildEmbedGeneral, buildEmbedForGame } from "./commands/sg.js";
+import { stringSelectForGames } from "./funcs/find.utils.js";
 dotenv.config();
 export const client = new Client({
     intents: [
@@ -105,7 +106,14 @@ try {
                 collector.on('collect', async (reaction, user) => {
                     console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
                     const member = await message.guild.members.fetch(userId);
-                    message.channel.send(`O sea, digamos, le diste ${amount} de scrap a ${member.nickname} (${member.user.username})`);
+                    message.channel.send(
+                        {
+                            content: `O sea, digamos, le diste ${amount} de scrap a ${member.nickname} (${member.user.username}). Para que juego?`,
+                            components: [
+                                stringSelectForGames()
+                            ]
+                        }
+                    );
                 });
 
             }

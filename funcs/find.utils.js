@@ -17,6 +17,7 @@ export function stringSelectForGames() {
             return {
                 label: game.name,
                 value: game.id,
+                type: 1
             }
         }));
 
