@@ -1,0 +1,20 @@
+[
+    {
+        "id": "codenames",
+        "name": "Codenames",
+        "logo": "https://cdn2.codenames.game/cno/2023-12-19/icon_cn/favicon-32x32.png",
+        "color":"#db4a18"
+    },
+    {
+        "id": "haxball",
+        "name": "Haxball",
+        "logo": "https://i.imgur.com/VgiPbLs.png",
+        "color":"#648b53"
+    },
+    {
+        "id": "skribbl",
+        "name": "Skribbl",
+        "logo": "https://skribbl.io/favicon.png",
+        "color":"#245094"
+    }
+]

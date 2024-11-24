@@ -1,4 +1,5 @@
 import { sumUserPoints, buildEmbed } from '../funcs/embed.utils.js';
+import { findGameById } from '../funcs/find.utils.js';
 
 export async function buildEmbedGeneral(top) {
     const userPoints = await sumUserPoints(top);
@@ -7,13 +8,13 @@ export async function buildEmbedGeneral(top) {
 }
 
 export async function buildEmbedForGame(top, gameName) {
-    if (!top[gameName.toLowerCase()]) {
+    const game = findGameById(gameName);
+
+    if (!game) {
         return "No se encontró el juego"
     }
 
-    const gameData = top[gameName.toLowerCase()];
-    const gameLogo = gameData.logo;
-    const gameColor = gameData.color;
+    const gameData = top[game.id];
 
     const userPoints = {};
 
@@ -23,6 +24,6 @@ export async function buildEmbedForGame(top, gameName) {
         }
         userPoints[user.id] += user.amount;
     }
-    const embed = await buildEmbed(userPoints, `🏆 ${gameName.toUpperCase()}`, gameLogo, gameColor);
+    const embed = await buildEmbed(userPoints, `🏆 ${game.name}`, game.logo, game.color);
     return { embeds: [embed] };
 }

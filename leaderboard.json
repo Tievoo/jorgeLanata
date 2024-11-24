@@ -1,7 +1,5 @@
 {
     "codenames": {
-        "logo": "https://cdn2.codenames.game/cno/2023-12-19/icon_cn/favicon-32x32.png",
-        "color":"#db4a18",
         "users": [
             { "id": "517757973800419343", "amount": 2000 },
             { "id": "279775093142323210", "amount": 2000 },
@@ -13,8 +11,6 @@
         ]
     },
     "haxball": {
-        "logo": "https://i.imgur.com/VgiPbLs.png",
-        "color":"#648b53",
         "users": [
             { "id": "517757973800419343", "amount": 1000 },
             { "id": "615285447706411228", "amount": 1000 },
@@ -26,8 +22,6 @@
         ]
     },
     "skribbl": {
-        "logo": "https://skribbl.io/favicon.png",
-        "color":"#245094",
         "users": [
             { "id": "517757973800419343", "amount": 1000 },
             { "id": "279775093142323210", "amount": 1500 },
