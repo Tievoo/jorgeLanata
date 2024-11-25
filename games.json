@@ -16,5 +16,17 @@
         "name": "Skribbl",
         "logo": "https://skribbl.io/favicon.png",
         "color":"#245094"
+    },
+    {
+        "id": "tetris",
+        "name": "Tetris",
+        "logo": "https://i.imgur.com/sHFwr3t.png",
+        "color":"#DF4EAA"
+    },
+    {
+        "id": "bombparty",
+        "name": "Bomb Party",
+        "logo": "https://i.imgur.com/po55Jty.png",
+        "color":"#6F41E1"
     }
 ]

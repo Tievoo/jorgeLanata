@@ -1,4 +1,4 @@
-import { StringSelectMenuBuilder } from "discord.js";
+import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } from "discord.js";
 import fs from "fs";
 
 export function findGameById(id) {
@@ -13,14 +13,20 @@ export function stringSelectForGames() {
         .setPlaceholder("Selecciona un juego")
         .setMinValues(1)
         .setMaxValues(1)
-        .addOptions(data.map((game) => {
-            return {
-                label: game.name,
-                value: game.id,
-                type: 1
-            }
-        }));
+        .addOptions(
+            [
+                ...data.map((game) =>
+                    new StringSelectMenuOptionBuilder()
+                        .setLabel(game.name)
+                        .setValue(game.id)
+                ),
+                new StringSelectMenuOptionBuilder()
+                    .setLabel("Otro")
+                    .setValue("other")
+                    .setDescription("(no anda esto todavia)")
+            ]
+        );
 
-    return select;
+    return new ActionRowBuilder().addComponents(select);
 }
     

@@ -1,5 +1,6 @@
 import { sumUserPoints, buildEmbed } from '../funcs/embed.utils.js';
 import { findGameById } from '../funcs/find.utils.js';
+import { readFileSync } from 'fs';
 
 export async function buildEmbedGeneral(top) {
     const userPoints = await sumUserPoints(top);
@@ -26,4 +27,18 @@ export async function buildEmbedForGame(top, gameName) {
     }
     const embed = await buildEmbed(userPoints, `🏆 ${game.name}`, game.logo, game.color);
     return { embeds: [embed] };
+}
+
+export async function sg(message, args) {
+
+    const rawData = readFileSync('./leaderboard.json');
+    const top = JSON.parse(rawData);
+
+    if (args.length > 0) {
+        const embed = await buildEmbedForGame(top, args[0]);
+        await message.channel.send(embed);
+    } else {
+        const embed = await buildEmbedGeneral(top);
+        await message.channel.send(embed);
+    }
 }
