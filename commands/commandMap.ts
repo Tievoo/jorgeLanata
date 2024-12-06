@@ -2,8 +2,11 @@ import { sg } from "./sg.ts";
 import { givescrap } from "./givescrap.ts";
 import { buy } from "./buy.ts";
 import { balance } from "./balance.ts";
-import { load } from "./load.ts";
+import { load, loadAll } from "./load.ts";
 import { Message } from "discord.js";
+import { setgame } from "./setgame.ts";
+import { cl } from "./cl.ts";
+import { sell } from "./sell.ts";
 
 type Command = (message: Message, args: string[]) => void;
 
@@ -12,7 +15,11 @@ const commandMap : Record<string, Command> = {
     "givescrap" : givescrap,
     "buy": buy,
     "balance": balance,
-    "load": load
+    "load": load,
+    "setgame": setgame,
+    "cl": cl,
+    "loadall": loadAll,
+    "sell": sell
 }
 
 export function executeCommand(message: Message) {

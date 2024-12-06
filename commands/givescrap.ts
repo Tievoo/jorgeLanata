@@ -2,7 +2,11 @@ import { MUDAE_USER_ID } from "../bot.ts";
 import { readFileSync, writeFileSync } from "node:fs";
 import { Message, MessageReaction, User } from "discord.js";
 
-export let actualGame : string | null = null;
+let actualGame : string | null = null;
+
+export function setActualGame(gameId : string | null) {
+    actualGame = gameId;
+}
 
 export async function givescrap(message : Message, args : string[]) {
     const [mention, amountString] = args;
