@@ -31,7 +31,7 @@ export async function buildEmbedForGame(top: Top, gameName: string) {
     return { embeds: [embed] };
 }
 
-export async function sg(message: Message, args: string[]) {
+export async function scraptop(message: Message, args: string[]) {
 
     const rawData = readFileSync('./database/leaderboard.json', 'utf-8');
     const top = JSON.parse(rawData);

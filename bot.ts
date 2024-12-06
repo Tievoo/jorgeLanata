@@ -1,6 +1,6 @@
 import { Client, GatewayIntentBits, GuildMember, VoiceChannel } from "discord.js";
 import dotenv from "dotenv";
-import { executeCommand } from "./commands/commandMap.ts";
+import { executeCommand } from "./commandMap.ts";
 dotenv.config();
 export const client = new Client({
     intents: [

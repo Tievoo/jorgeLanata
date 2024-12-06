@@ -7,7 +7,7 @@ export const CASHIR_COMM = 0.05;
 
 export function addBalance(userId: string, amount: number) {
     // Aca cargaríamos la guita
-    const casino = JSON.parse(readFileSync('./database/casino.json', 'utf-8'));
+    const casino = getCasino();
     const user = casino.users[userId];
 
     if (!user) {
@@ -24,7 +24,7 @@ export function addBalance(userId: string, amount: number) {
 export function addCommissions(userId: string, amount: number) {
     if (amount <= 0) return;
 
-    const casino = JSON.parse(readFileSync('./database/casino.json', 'utf-8'));
+    const casino = getCasino();
     
     if (!casino.commissions[TIEVO_USER_ID]) casino.commissions[TIEVO_USER_ID] = 0;
     if (!casino.commissions[userId]) casino.commissions[userId] = 0;

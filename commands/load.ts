@@ -1,11 +1,18 @@
 import { EmbedBuilder, Message, TextChannel } from "discord.js";
 import { addBalance, addCommissions } from "../funcs/casino.utils.ts";
 import { pendingTrades } from "./buy.ts";
+import { isUserAdmin } from "../funcs/discord.utils.ts";
+
+const ARGS = 1;
 
 export async function load(message: Message, args: string[]) {
+    
+    if (isUserAdmin(message.member!)) {
+        return message.reply("`$load` es para administradores");
+    }
 
-    if (args.length < 1) {
-        return message.reply("Faltan argumentos");
+    if (args.length !== ARGS) {
+        return message.reply("Sintaxis: $load **<mención | id>** (mención/id a un usuario)\nEste comando carga los puntos pendientes de un usuario a su balance, se por un $sell o un $buy");
     }
     const [mention] = args;
     const userId = mention.replace(/[<@!>]/g, "");

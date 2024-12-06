@@ -2,6 +2,7 @@
 import { ColorResolvable, EmbedBuilder, HexColorString } from "discord.js";
 import { client } from "../bot.ts";
 import { Top } from "../types/db.types.ts";
+import { kakeraEmoji } from "./discord.utils.ts";
 
 export type UserPoints = Record<string, number>;
 
@@ -28,13 +29,13 @@ export async function buildEmbed(userPoints: UserPoints, title:string , logo? : 
 
     const total = sortedUsers.reduce((acc, userId) => acc + userPoints[userId], 0);
 
-    let description = `**TOTAL:** ${total} <:kakera:1309807660987846686>\n‎\n`;
+    let description = `**TOTAL:** ${total} ${kakeraEmoji}\n‎\n`;
 
 
 
     sortedUsers.forEach((userId, index) => {
         const user = userPoints[userId];
-        description += `${numberToEmoji(index + 1)} - <@${userId}> - ${user} <:kakera:1309807660987846686> \n`;
+        description += `${numberToEmoji(index + 1)} - <@${userId}> - ${user} ${kakeraEmoji} \n`;
     });
 
     embed.setAuthor({
