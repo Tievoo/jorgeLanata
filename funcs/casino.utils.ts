@@ -1,8 +1,8 @@
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 
-export function addBalance(userId, amount) {
+export function addBalance(userId: string, amount: number) {
     // Aca cargaríamos la guita
-    const casino = JSON.parse(readFileSync('./database/casino.json'));
+    const casino = JSON.parse(readFileSync('./database/casino.json', 'utf-8'));
     const user = casino.users[userId];
 
     if (!user) {
@@ -16,8 +16,8 @@ export function addBalance(userId, amount) {
     writeFileSync('./database/casino.json', JSON.stringify(casino, null, 4));
 }
 
-export function getBalance(userId) {
-    const casino = JSON.parse(readFileSync('./database/casino.json'));
+export function getBalance(userId: string) {
+    const casino = JSON.parse(readFileSync('./database/casino.json', 'utf-8'));
     const user = casino.users[userId];
 
     if (!user) {

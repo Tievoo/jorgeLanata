@@ -1,6 +1,6 @@
-import { Client, GatewayIntentBits } from "discord.js";
+import { Client, GatewayIntentBits, GuildMember, VoiceChannel } from "discord.js";
 import dotenv from "dotenv";
-import { executeCommand } from "./commands/commandMap.js";
+import { executeCommand } from "./commands/commandMap.ts";
 dotenv.config();
 export const client = new Client({
     intents: [
@@ -17,7 +17,7 @@ export const MUDAE_USER_ID = "432610292342587392"
 
 try {
     client.on("ready", () => {
-        console.log(`Logged in as ${client.user.tag}!`);
+        console.log(`Logged in as ${client.user!.tag}!`);
     });
 
     client.on("interactionCreate", async (interaction) => {
@@ -31,9 +31,10 @@ try {
             const [member, channel] = [
                 interaction.options.getMember("quien"),
                 interaction.options.getChannel("vc"),
-            ];
+            ] as [GuildMember, VoiceChannel]
 
-            if (!member.voice?.channelId) {
+
+            if (!member?.voice?.channelId) {
                 return interaction.reply({
                     content: "no esta en vc",
                     ephemeral: true,
@@ -47,7 +48,7 @@ try {
                 });
             }
 
-            if (member.voice.channelId !== interaction.member.voice.channelId) {
+            if (member.voice.channelId !== (interaction.member as GuildMember)?.voice.channelId) {
                 return interaction.reply({
                     content: "no esta con vos en el canal de voz flaco",
                     ephemeral: true,

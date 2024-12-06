@@ -1,15 +1,14 @@
 import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } from "discord.js";
-import fs from "fs";
+import fs from "node:fs";
 
 export function findGameById(id) {
-    const data = JSON.parse(fs.readFileSync("./database/games.json"));
+    const data = JSON.parse(fs.readFileSync("./database/games.json", "utf-8"));
     return data.find((game) => game.id === id.toLowerCase());
 }
 
 export function stringSelectForGames() {
-    const data = JSON.parse(fs.readFileSync("./database/games.json"));
+    const data = JSON.parse(fs.readFileSync("./database/games.json", "utf-8"));
     const select = new StringSelectMenuBuilder()
-        .setCustomId("gamelist")
         .setPlaceholder("Selecciona un juego")
         .setMinValues(1)
         .setMaxValues(1)

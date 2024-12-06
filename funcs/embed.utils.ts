@@ -1,8 +1,11 @@
 // utils.js
-import { EmbedBuilder } from "discord.js";
-import { client } from "../bot.js";
+import { ColorResolvable, EmbedBuilder, HexColorString } from "discord.js";
+import { client } from "../bot.ts";
+import { Top } from "../types/db.types.ts";
 
-export async function sumUserPoints(top) {
+export type UserPoints = Record<string, number>;
+
+export async function sumUserPoints(top: Top) : Promise<UserPoints> {	
     const userPoints = {};
 
     for (const game of Object.keys(top)) {
@@ -17,7 +20,7 @@ export async function sumUserPoints(top) {
     return userPoints;
 }
 
-export async function buildEmbed(userPoints, title, logo, color) {
+export async function buildEmbed(userPoints: UserPoints, title:string , logo? : string, color?: HexColorString) {
     const embed = new EmbedBuilder();
 
     const users = Object.keys(userPoints);
@@ -28,7 +31,6 @@ export async function buildEmbed(userPoints, title, logo, color) {
     let description = `**TOTAL:** ${total} <:kakera:1309807660987846686>\n‎\n`;
 
 
-    const topPlayer = await client.users.fetch(sortedUsers[0]);
 
     sortedUsers.forEach((userId, index) => {
         const user = userPoints[userId];
@@ -39,14 +41,18 @@ export async function buildEmbed(userPoints, title, logo, color) {
         name: title,
         iconURL: logo,
     });
-    embed.setColor( color || "#670c09");
+    embed.setColor(color || "#670c09");
     embed.setDescription(description);
-    embed.setThumbnail(topPlayer.displayAvatarURL());
+    
+    if (sortedUsers.length > 0) {
+        const topPlayer = await client.users.fetch(sortedUsers[0]);
+        embed.setThumbnail(topPlayer.displayAvatarURL());
+    }
 
     return embed;
 }
 
-function numberToEmoji(number) {
+function numberToEmoji(number: number) {
     const emojis = {
         1: ":first_place:",
         2: ":second_place:",

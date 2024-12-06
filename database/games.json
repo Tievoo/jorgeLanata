@@ -28,5 +28,11 @@
         "name": "Bomb Party",
         "logo": "https://i.imgur.com/po55Jty.png",
         "color":"#6F41E1"
+    },
+    {
+        "id": "valorant",
+        "name": "Valorant",
+        "logo": "https://i.imgur.com/3DDhCDo.png",
+        "color":"#FF4655"
     }
 ]

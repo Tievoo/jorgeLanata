@@ -1,7 +1,8 @@
-import { addBalance } from "../funcs/casino.utils.js";
-import { pendingTrades } from "./buy.js";
+import { Message } from "discord.js";
+import { addBalance } from "../funcs/casino.utils.ts";
+import { pendingTrades } from "./buy.ts";
 
-export async function load(message, args) {
+export async function load(message: Message, args: string[]) {
 
     if (args.length < 2) {
         return message.reply("Faltan argumentos");
