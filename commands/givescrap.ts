@@ -1,7 +1,8 @@
-import { stringSelectForGames } from "../funcs/find.utils.ts";
 import { MUDAE_USER_ID } from "../bot.ts";
 import { readFileSync, writeFileSync } from "node:fs";
-import { Message, MessageComponentInteraction, MessageReaction, StringSelectMenuInteraction, TextChannel, User } from "discord.js";
+import { Message, MessageReaction, User } from "discord.js";
+
+export let actualGame : string | null = null;
 
 export async function givescrap(message : Message, args : string[]) {
     const [mention, amountString] = args;
@@ -18,26 +19,11 @@ export async function givescrap(message : Message, args : string[]) {
         time: 30000,
     }).catch((_) => null)
 
-    if (!reacted) return;
+    if (!reacted || !actualGame) return;
 
+    addToUserId(userId, actualGame, amount);
 
-    const member = await message.guild!.members.fetch(userId);
-    const response = await (message.channel as TextChannel).send({
-        content: `O sea, digamos, le diste ${amount} de scrap a ${member.nickname} (${member.user.username}). Para que juego?`,
-        components: [stringSelectForGames() as any],
-    });
-
-    const filter = (interaction : MessageComponentInteraction) => interaction.user.id === message.author.id;
-
-    const interacted = await response.awaitMessageComponent({ filter, max: 1, time: 30000 } as any).catch((_) => null) as StringSelectMenuInteraction<"cached">;
-
-    if (!interacted) return;
-    
-    const gameId = interacted.values[0];
-
-    addToUserId(userId, gameId, amount);
-
-    await interacted.reply({ content: "Listo", ephemeral: true });
+    await message.reply(`Agregamos ${amount} al vago ese en \`${actualGame}\``);
 
 }
 
