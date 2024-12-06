@@ -1,5 +1,5 @@
 import { stringSelectForGames } from "../funcs/find.utils.js";
-import { MUDADE_USER_ID } from "../bot.js";
+import { MUDAE_USER_ID } from "../bot.js";
 import { readFileSync, writeFileSync } from "fs";
 
 export async function givescrap(message, args) {
@@ -8,7 +8,7 @@ export async function givescrap(message, args) {
     const amount = parseInt(amountString) || 0;
 
     const collectorFilter = (reaction, user) => {
-        return reaction.emoji.name == "✅" && user.id === MUDADE_USER_ID;
+        return reaction.emoji.name == "✅" && user.id === MUDAE_USER_ID;
     };
 
     const reacted = await message.awaitReactions({
@@ -41,7 +41,7 @@ export async function givescrap(message, args) {
 }
 
 const addToUserId = (userId, gameId, amount) => {
-    const rawData = readFileSync('./leaderboard.json');
+    const rawData = readFileSync('./database/leaderboard.json');
     const top = JSON.parse(rawData);
 
     if (!top[gameId]) return // Vemos
@@ -54,5 +54,5 @@ const addToUserId = (userId, gameId, amount) => {
         top[gameId].users[useridx].amount += amount;
     }
 
-    writeFileSync('./leaderboard.json', JSON.stringify(top, null, 4));
+    writeFileSync('./database/leaderboard.json', JSON.stringify(top, null, 4));
 }

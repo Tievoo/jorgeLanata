@@ -19,10 +19,14 @@ export async function sumUserPoints(top) {
 
 export async function buildEmbed(userPoints, title, logo, color) {
     const embed = new EmbedBuilder();
-    let description = "‎\n";
 
     const users = Object.keys(userPoints);
     const sortedUsers = users.sort((a, b) => userPoints[b] - userPoints[a]);
+
+    const total = sortedUsers.reduce((acc, userId) => acc + userPoints[userId], 0);
+
+    let description = `**TOTAL:** ${total} <:kakera:1309807660987846686>\n‎\n`;
+
 
     const topPlayer = await client.users.fetch(sortedUsers[0]);
 

@@ -2,12 +2,12 @@ import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilde
 import fs from "fs";
 
 export function findGameById(id) {
-    const data = JSON.parse(fs.readFileSync("./games.json"));
+    const data = JSON.parse(fs.readFileSync("./database/games.json"));
     return data.find((game) => game.id === id.toLowerCase());
 }
 
 export function stringSelectForGames() {
-    const data = JSON.parse(fs.readFileSync("./games.json"));
+    const data = JSON.parse(fs.readFileSync("./database/games.json"));
     const select = new StringSelectMenuBuilder()
         .setCustomId("gamelist")
         .setPlaceholder("Selecciona un juego")

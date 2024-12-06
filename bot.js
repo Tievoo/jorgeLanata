@@ -1,7 +1,6 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
-import { sg } from "./commands/sg.js";
-import { givescrap } from "./commands/givescrap.js";
+import { executeCommand } from "./commands/commandMap.js";
 dotenv.config();
 export const client = new Client({
     intents: [
@@ -14,7 +13,7 @@ export const client = new Client({
 });
 const { TOKEN } = process.env;
 
-export const MUDADE_USER_ID = "432610292342587392"
+export const MUDAE_USER_ID = "432610292342587392"
 
 try {
     client.on("ready", () => {
@@ -70,16 +69,7 @@ try {
 
     client.on('messageCreate', async (message) => {
         if (message.content.startsWith("$")) {
-            const msg = message.content.slice(1);
-            const [command, ...args] = msg.split(" ");
-
-            if (command === "sg") {
-                sg(message, args);
-            }
-
-            if (command === "givescrap") {
-                givescrap(message, args);
-            }
+            executeCommand(message);
         }
     });
 } catch (error) {
