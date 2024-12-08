@@ -21,7 +21,7 @@ export function addBalance(userId: string, amount: number) {
     writeFileSync('./database/casino.json', JSON.stringify(casino, null, 4));
 }
 
-export function addCommissions(userId: string, amount: number) {
+export function addCommissions(userId: string, amount: number, buyerId: string) {
     if (amount <= 0) return;
 
     const casino = getCasino();
@@ -29,8 +29,13 @@ export function addCommissions(userId: string, amount: number) {
     if (!casino.commissions[TIEVO_USER_ID]) casino.commissions[TIEVO_USER_ID] = 0;
     if (!casino.commissions[userId]) casino.commissions[userId] = 0;
 
-    casino.commissions[TIEVO_USER_ID] += Math.round(amount * TIEVO_COMM);
-    casino.commissions[userId] += Math.round(amount * CASHIR_COMM);
+    if (buyerId !== TIEVO_USER_ID) {
+        casino.commissions[TIEVO_USER_ID] += Math.round(amount * TIEVO_COMM);
+    }
+
+    if (buyerId !== userId) {
+        casino.commissions[userId] += Math.round(amount * CASHIR_COMM);
+    }
 
     writeFileSync('./database/casino.json', JSON.stringify(casino, null, 4));
 }
@@ -44,6 +49,10 @@ export function getBalance(userId: string) {
     }
 
     return user.balance;
+}
+
+export function hasNoBalance(userId: string) {
+    return getBalance(userId) === 0;
 }
 
 export function getCommissions() {

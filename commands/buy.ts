@@ -4,7 +4,12 @@ import { kakeraEmoji } from "../funcs/discord.utils.ts";
 
 const ADMIN_CHANNEL = "790747207665319947"
 
-export let pendingTrades : any[] = [];
+type Trade = {
+    cashier: string,
+    buyer: string,
+    amount: number
+}
+export let pendingTrades : Trade[] = [];
 
 const ARGS = 1;
 

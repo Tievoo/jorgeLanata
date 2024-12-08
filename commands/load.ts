@@ -23,12 +23,12 @@ export async function load(message: Message, args: string[]) {
         return message.reply("No se encontró la transacción");
     }
 
-    const { amount } = pendingTrades[tradeIndex];
+    const { amount, buyer } = pendingTrades[tradeIndex];
 
     pendingTrades.splice(tradeIndex, 1);
 
     addBalance(userId, amount);
-    addCommissions(message.author.id, amount);
+    addCommissions(message.author.id, amount, buyer);
 
     await message.reply(`Se le ${ amount > 0 ? "cargaron" : "removieron"} ${Math.abs(amount)} puntos a <@${userId}>`);
 }
@@ -47,7 +47,7 @@ export async function loadAll(message: Message, args: string[]) {
         const { buyer, amount } = pendingTrades[index];
         
         addBalance(buyer, amount);
-        addCommissions(message.author.id, amount);
+        addCommissions(message.author.id, amount, buyer);
         if (amount > 0) {
             positives += `<@${buyer}>: ${amount}\n`;
         }

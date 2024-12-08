@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits, GuildMember, VoiceChannel } from "discord.js";
 import dotenv from "dotenv";
 import { executeCommand } from "./commandMap.ts";
+import { isUserAdmin } from "./funcs/discord.utils.ts";
 dotenv.config();
 export const client = new Client({
     intents: [
@@ -25,6 +26,32 @@ try {
 
         if (interaction.commandName === "hola") {
             await interaction.reply("tu nariz contra mis bolas kuka");
+        }
+
+        if (interaction.commandName === "cortar") {
+            const member = interaction.options.getMember("quien") as GuildMember;
+
+            if (!member?.voice?.channelId) {
+                return interaction.reply({
+                    content: "no esta en vc",
+                    ephemeral: true,
+                });
+            }
+
+            if (!isUserAdmin(interaction.member as GuildMember)) {
+                return interaction.reply({
+                    content: "no tenes permisos",
+                    ephemeral: true,
+                });
+            }
+
+            await interaction.reply({ content: "ahi va", ephemeral: true });
+
+            for (let i = 0; i < 5; i++) {
+                await member.voice.setMute(true);
+                await member.voice.setMute(false);
+            }
+
         }
 
         if (interaction.commandName === "despertar") {

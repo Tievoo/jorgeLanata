@@ -12,6 +12,6 @@
   "scripts": {
     "start": "node . && node bot.js",
     "watch": "nodemon bot.js",
-    "watch:deno" : "deno run --watch --allow-env --allow-read --allow-net bot.ts"
+    "watch:deno" : "deno run --watch --allow-env --allow-read --allow-net --allow-write bot.ts"
   }
 }
