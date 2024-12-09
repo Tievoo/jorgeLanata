@@ -38,10 +38,10 @@ export async function sell(message: Message, args: string[]) {
     const collector = cajeroMessage.createReactionCollector({ filter, time: 60000, max: 1 });
 
     collector.on("collect", async (reaction, user) => {
-        pendingTrades.push({
+        pendingTrades.set(user.id, {
             cashier: user.id,
             buyer: message.author.id,
-            amount: -amount
+            amount
         });
 
         await cajeroMessage.channel.send("Bueno **" + user.username + "** le pasas **" + amount + "** de scrap a **" + message.author.username + "**, dale?");

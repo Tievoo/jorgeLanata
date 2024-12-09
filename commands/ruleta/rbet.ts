@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
-import { addBetsToPlayer, getBet, getPrevBet, isPlayerInRoulette, parseBet, resetBet, resetBetAndRefund } from "../../funcs/rula.utils.ts";
-import { getBalance } from "../../funcs/casino.utils.ts";
+import { addBetsToPlayer, displayBet, getBet, getPrevBet, isPlayerInRoulette, parseBet, resetBet, resetBetAndRefund } from "../../funcs/rula.utils.ts";
+import { addBalance, getBalance } from "../../funcs/casino.utils.ts";
 import { Bet } from "../../types/casino.types.ts";
 import { ROULETTE_MIN } from "../../models/roulette.ts";
 
@@ -14,7 +14,7 @@ export function rbet(message: Message, args: string[], repeat?: boolean, double?
     try {
         if (repeat) {
             const lastBet = getPrevBet(message.channel.id, message.author.id);
-            resetBetAndRefund(message.channel.id, message.author.id);
+            resetBetAndRefund(message.channel.id, message.author.id, []);
             parsedBet = lastBet;
         }
         else if (double) {
@@ -22,7 +22,7 @@ export function rbet(message: Message, args: string[], repeat?: boolean, double?
             parsedBet = lastBet;
         }
 
-        else parsedBet = parseBet(args);
+        else parsedBet = parseBet(args, message.author.id);
     } catch (error) {
         if (error.message === "Low bet") {
             return message.reply("Apuesta minima " + ROULETTE_MIN);
@@ -43,7 +43,6 @@ export function rbet(message: Message, args: string[], repeat?: boolean, double?
     )
 
     const actualBet = getBet(message.channel.id, message.author.id)
-    const actualAmount = actualBet.reduce((acc: number, bet: Bet) => acc + bet.amount, 0);
 
-    message.reply(`**Apuesta realizada**. Tu apuesta actual:\n${actualBet.map(bet => `**${bet.amount}** en ${bet.slot}`).join("\n")}\nTotal apostado: **${actualAmount}**`);
+    message.reply(`**Apuesta realizada**. Tu apuesta actual:\n${displayBet(actualBet)}`);
 }

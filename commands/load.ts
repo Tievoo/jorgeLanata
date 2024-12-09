@@ -17,15 +17,15 @@ export async function load(message: Message, args: string[]) {
     const [mention] = args;
     const userId = mention.replace(/[<@!>]/g, "");
 
-    const tradeIndex = pendingTrades.findIndex((trade) => trade.buyer === userId && trade.cashier === message.author.id);
+    const trade = pendingTrades.get(userId);
 
-    if (tradeIndex === -1) {
+    if (!trade) {
         return message.reply("No se encontró la transacción");
     }
 
-    const { amount, buyer } = pendingTrades[tradeIndex];
+    const { amount, buyer } = trade
 
-    pendingTrades.splice(tradeIndex, 1);
+    pendingTrades.delete(userId);
 
     addBalance(userId, amount);
     addCommissions(message.author.id, amount, buyer);
@@ -34,17 +34,17 @@ export async function load(message: Message, args: string[]) {
 }
 
 export async function loadAll(message: Message, args: string[]) {
-    const tradeIndexes = pendingTrades.map((trade, index) => trade.cashier === message.author.id ? index : -1).filter((index) => index !== -1);
+    const tradeIds = Object.keys(pendingTrades).filter((key) => pendingTrades.get(key)!.cashier === message.author.id);
     
-    if (tradeIndexes.length === 0) {
+    if (tradeIds.length === 0) {
         return message.react("❌");
     }
 
     let positives = "";
     let negatives = "";
 
-    for (const index of tradeIndexes) {
-        const { buyer, amount } = pendingTrades[index];
+    for (const userId of tradeIds) {
+        const { buyer, amount } = pendingTrades.get(userId)!;
         
         addBalance(buyer, amount);
         addCommissions(message.author.id, amount, buyer);
@@ -54,6 +54,8 @@ export async function loadAll(message: Message, args: string[]) {
         else {
             negatives += `<@${buyer}>: ${Math.abs(amount)}\n`;
         }
+
+        pendingTrades.delete(userId);
     }
 
     if (negatives.length) {
@@ -62,10 +64,6 @@ export async function loadAll(message: Message, args: string[]) {
 
     if (positives.length) {
         positives = "Le cargaste puntos a:\n" + positives;
-    }
-
-    for (const index of tradeIndexes) {
-        pendingTrades.splice(index, 1);
     }
 
     const embed = new EmbedBuilder();

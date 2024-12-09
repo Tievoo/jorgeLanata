@@ -1,3 +1,4 @@
+import { RouletteNumberEmojis } from "../funcs/rula.utils.ts";
 import { Bet } from "../types/casino.types.ts";
 
 export const ROULETTE_MIN = 20;
@@ -7,6 +8,7 @@ export abstract class RouletteSlot {
     readonly name : string;
     readonly payout : number;
     readonly maxBet = ROULETTE_MIN*50;
+    readonly id: string;
     constructor() {}
     abstract shouldPay(number: number): boolean
 
@@ -16,6 +18,10 @@ export abstract class RouletteSlot {
 
     roundToMaxBet(amount: number): number {
         return Math.min(this.maxBet, amount);
+    }
+
+    isOfType(slot: string): boolean {
+        return slot === this.id;
     }
 }
 
@@ -33,7 +39,11 @@ export class RouletteNumber extends RouletteSlot {
     }
 
     toString() {
-        return this.number.toString();
+        return RouletteNumberEmojis[this.number];
+    }
+
+    isOfType(slot: string): boolean {
+        return slot === this.number.toString();
     }
 }
 
@@ -52,12 +62,17 @@ export class RouletteMiddle extends RouletteSlot {
     }
 
     toString() {
-        return `Entre ${this.firstNumber} y ${this.secondNumber}`;
+        return `Entre ${RouletteNumberEmojis[this.firstNumber]} y ${RouletteNumberEmojis[this.firstNumber]}`;
+    }
+
+    isOfType(slot: string): boolean {
+        return slot === `${this.firstNumber}.${this.secondNumber}`;
     }
 }
 
 export class RouletteRed extends RouletteSlot {
     readonly name = "Rojo";
+    readonly id = "red"
     readonly payout = 2;
 
     shouldPay(number: number): boolean {
@@ -67,6 +82,7 @@ export class RouletteRed extends RouletteSlot {
 
 export class RouletteBlack extends RouletteSlot {
     readonly name = "Negro";
+    readonly id = "black";
     readonly payout = 2;
 
     shouldPay(number: number): boolean {
@@ -76,6 +92,7 @@ export class RouletteBlack extends RouletteSlot {
 
 export class RouletteOdd extends RouletteSlot {
     readonly name = "Impar";
+    readonly id = "odd";
     readonly payout = 2;
 
     shouldPay(number: number): boolean {
@@ -85,6 +102,7 @@ export class RouletteOdd extends RouletteSlot {
 
 export class RouletteEven extends RouletteSlot {
     readonly name = "Par";
+    readonly id = "even";
     readonly payout = 2;
 
     shouldPay(number: number): boolean {
@@ -94,6 +112,7 @@ export class RouletteEven extends RouletteSlot {
 
 export class RouletteLow extends RouletteSlot {
     readonly name = "1 a 18";
+    readonly id = "low";
     readonly payout = 2;
 
     shouldPay(number: number): boolean {
@@ -103,6 +122,7 @@ export class RouletteLow extends RouletteSlot {
 
 export class RouletteHigh extends RouletteSlot {
     readonly name = "19 a 36";
+    readonly id = "high";
     readonly payout = 2;
 
     shouldPay(number: number): boolean {
@@ -112,6 +132,7 @@ export class RouletteHigh extends RouletteSlot {
 
 export class RouletteFirstDozen extends RouletteSlot {
     readonly name = "Primera docena";
+    readonly id = "first";
     readonly payout = 3;
 
     shouldPay(number: number): boolean {
@@ -121,6 +142,7 @@ export class RouletteFirstDozen extends RouletteSlot {
 
 export class RouletteSecondDozen extends RouletteSlot {
     readonly name = "Segunda docena";
+    readonly id = "second";
     readonly payout = 3;
 
     shouldPay(number: number): boolean {
@@ -131,6 +153,7 @@ export class RouletteSecondDozen extends RouletteSlot {
 
 export class RouletteThirdDozen extends RouletteSlot {
     readonly name = "Tercera docena";
+    readonly id = "third";
     readonly payout = 3;
 
     shouldPay(number: number): boolean {

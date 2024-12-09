@@ -14,7 +14,7 @@ import {
     ROULETTE_MIN
 } from "../models/roulette.ts";
 import { Bet, Roulette } from "../types/casino.types.ts";
-import { addBalance, hasNoBalance } from "./casino.utils.ts";
+import { addBalance, getBalance, hasNoBalance } from "./casino.utils.ts";
 
 export const rouletteState: Map<string, Roulette> = new Map<string, Roulette>();
 
@@ -138,10 +138,20 @@ export function usersWithoutBet(channelId: string) {
     return Object.values(roulette!.players).filter(player => player.bets.length === 0);
 }
 
-export function parseBet(bets: string[]): Bet[] {
+export function parseBet(bets: string[], userId: string): Bet[] {
 
-    return bets.map(bet => {
-        const [slot, amount] = bet.split(":");
+    const multiBets : string[] = [];
+
+    const parsed : Bet[] = bets.map(bet => {
+        let [slot, amount] = bet.split(":");
+        if (amount === "all") amount = getBalance(userId).toString();
+        
+        if (/^\[.+\]$/.test(slot)) {
+            const numbers = slot.slice(1, -1).replace(/ /g, "").split(",");
+            multiBets.push(...numbers.map(num => `${num}:${amount}`));
+            return;
+        }
+
         const rouletteSlot = convertToRouletteSlot(slot);
         const amountNumber = parseInt(amount);
 
@@ -152,7 +162,13 @@ export function parseBet(bets: string[]): Bet[] {
             amount: rouletteSlot.roundToMaxBet(amountNumber),
             slot: rouletteSlot,
         }
-    });
+    }).filter((bet): bet is Bet => !!bet);
+
+    if (multiBets.length) {
+        parsed.push(...parseBet(multiBets, userId))
+    }
+
+    return parsed;
 }
 
 export function getBet(channelId: string, playerId: string) {
@@ -176,16 +192,20 @@ export function resetBet(channelId: string, playerId: string) {
     roulette.players[playerId].bets = [];
 }
 
-export function resetBetAndRefund(channelId: string, playerId: string) {
+export function resetBetAndRefund(channelId: string, playerId: string, args: string[] = []) {
     const roulette = rouletteState.get(channelId);
     if (!roulette) return;
 
     const player = roulette.players[playerId];
-    const refund = player.bets.reduce((acc, bet) => acc + bet.amount, 0);
+    const actualValue = player.bets.reduce((acc, bet) => acc + bet.amount, 0);
 
-    addBalance(playerId, refund);
+    const newBets = args.length ? player.bets.filter(bet => !args.some(arg => bet.slot.isOfType(arg))) : []
 
-    player.bets = [];
+    const newValue = newBets.reduce((acc, bet) => acc + bet.amount, 0);
+
+    addBalance(playerId, actualValue - newValue);
+
+    player.bets = newBets;
 }
 
 export function resetBets(channelId: string) {
@@ -202,6 +222,15 @@ export function resetBets(channelId: string) {
         player.bets = [];
 
     }
+}
+
+export function getBetAmount(bet: Bet[]) {
+    return bet.reduce((acc, bet) => acc + bet.amount, 0);
+}
+
+export function displayBet(bets: Bet[]) {
+    const amount = bets.reduce((acc, bet) => acc + bet.amount, 0);
+    return `${bets.map(bet => `**${bet.amount}** en ${bet.slot}`).join("\n")}\nTotal apostado: **${amount}**`;
 }
 
 export const RouletteNumberEmojis : Record<number, string> = {

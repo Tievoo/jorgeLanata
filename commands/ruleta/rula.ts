@@ -37,8 +37,12 @@ export async function rula(message: Message, args: string[]) {
 
 }
 
+export function rhelp(message: Message, args: string[]) {
+    return (message.channel as TextChannel).send({ embeds: [embed(true)] });
+}
 
-function embed() {
+
+function embed(help: boolean = false) {
     return {
         title: "Juego de Ruleta",
         description: "Juego de ruleta americana de 37 numeros. Comandos:\n" +
@@ -47,13 +51,13 @@ function embed() {
             "**$rexit** - Salirse de la ruleta\n" +
             "**$rbet** - Realiza una apuesta. Sintaxis: $rbet **<apuesta>**:**<valor>**\n" +
             "Los valores son **red**, **black**, **even**, **odd**, **first**, **second**, **third** (primera, segunda y tercera docena)," +
-            " **low** (1-18), **high** (19-36), y <0-36> para numero.\nPara apostar en el medio entre dos numeros, se usa <numero>.<numero>\n" +
+            " **low** (1-18), **high** (19-36), y <0-36> para numero.\nPara apostar en el medio entre dos numeros, se usa **<numero>.<numero>**\n" +
             `La apuesta minima es de ${ROULETTE_MIN}, y el maximo es ${ROULETTE_MIN*10} para los numeros y ${ROULETTE_MIN*50} para las otras apuestas.\n`+
             "**$rroll** - Gira la ruleta y muestra el resultado\n" +
             "**$rreset** - Cancela tu apuesta y devuelve el valor a tu balance\n" +
             "**$rbetd** - Duplica tu apuesta actual\n" +
             "**$rbetr** - Repite tu apuesta anterior\n\n\n"+
-            "Para unirse a la ruleta, usa el comando $rjoin o reacciona con 👍 en este mensaje.",
+            (help ? "" : "Para unirse a la ruleta, usa el comando $rjoin o reacciona con 👍 en este mensaje."),
         color: 0x00ff00,
         image: {
             url: "https://i.imgur.com/qbIX9FQ.png"

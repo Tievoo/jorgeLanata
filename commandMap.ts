@@ -8,7 +8,7 @@ import { setgame } from "./commands/setgame.ts";
 import { commissionlist } from "./commands/commissionlist.ts";
 import { sell } from "./commands/sell.ts";
 import { help } from "./commands/help.ts";
-import { rula } from "./commands/ruleta/rula.ts";
+import { rhelp, rula } from "./commands/ruleta/rula.ts";
 import { rbet } from "./commands/ruleta/rbet.ts";
 import { rroll } from "./commands/ruleta/rroll.ts";
 import { rjoin } from "./commands/ruleta/rjoin.ts";
@@ -17,6 +17,7 @@ import { rbetd } from "./commands/ruleta/rbetd.ts";
 import { rbetr } from "./commands/ruleta/rbetr.ts";
 import { rreset } from "./commands/ruleta/rreset.ts";
 import { rnext } from "./commands/ruleta/rnext.ts";
+import { rinfo } from "./commands/ruleta/rinfo.ts";
 
 type Command = (message: Message, args: string[]) => void;
 
@@ -57,6 +58,8 @@ const commandMap : Record<string, Command> = {
     "rbetd": rbetd,
     "rbetr": rbetr,
     "rreset": rreset,
+    "rhelp": rhelp,
+    "rinfo": rinfo,
 
     "ctest": test,
     "rnext": rnext
