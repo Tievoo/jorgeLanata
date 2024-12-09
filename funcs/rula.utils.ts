@@ -83,6 +83,8 @@ export function addBetsToPlayer(channelId: string, playerId: string, bets: Bet[]
     const roulette = rouletteState.get(channelId);
     if (!roulette) return;
 
+    const prevAmount = roulette.players[playerId].bets.reduce((acc, bet) => acc + bet.amount, 0);
+
     for (const bet of bets) {
         const existingBet = roulette.players[playerId].bets.findIndex(b => b.slot.toString() === bet.slot.toString());
         if (existingBet !== -1) {
@@ -93,7 +95,9 @@ export function addBetsToPlayer(channelId: string, playerId: string, bets: Bet[]
         }
     }
 
-    //addBalance(playerId, bets.reduce((acc, bet) => acc - bet.amount, 0));
+    const newAmount = roulette.players[playerId].bets.reduce((acc, bet) => acc + bet.amount, 0);
+
+    addBalance(playerId, prevAmount - newAmount);
 }
 
 export function isPlayerInRoulette(channelId: string, playerId: string) {

@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { addBetsToPlayer, getBet, getPrevBet, isPlayerInRoulette, parseBet, resetBet, resetBetAndRefund } from "../../funcs/rula.utils.ts";
-import { addBalance, getBalance } from "../../funcs/casino.utils.ts";
+import { getBalance } from "../../funcs/casino.utils.ts";
 import { Bet } from "../../types/casino.types.ts";
 import { ROULETTE_MIN } from "../../models/roulette.ts";
 
@@ -41,8 +41,6 @@ export function rbet(message: Message, args: string[], repeat?: boolean, double?
         message.author.id,
         parsedBet
     )
-
-    addBalance(message.author.id, -amount);
 
     const actualBet = getBet(message.channel.id, message.author.id)
     const actualAmount = actualBet.reduce((acc: number, bet: Bet) => acc + bet.amount, 0);

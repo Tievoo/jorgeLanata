@@ -24,6 +24,8 @@ export async function sell(message: Message, args: string[]) {
         return message.reply("No tenes suficientes puntos");
     }
 
+    const answer = await message.reply("Ok, se notificara a un cajero para que te de " + amount + " de kakeras por tus fichas");
+
     const admin_channel = await client.channels.fetch(ADMIN_CHANNEL) as TextChannel;
 
     const cajeroMessage = await admin_channel.send("Che " + message.author.username + " quiere **vender** " + amount + " de scrap quien le hace la segunda?");
@@ -43,5 +45,6 @@ export async function sell(message: Message, args: string[]) {
         });
 
         await cajeroMessage.channel.send("Bueno **" + user.username + "** le pasas **" + amount + "** de scrap a **" + message.author.username + "**, dale?");
+        await answer.edit(`El moderador **${user.username}** acepto tu venta, te removera ${amount} de fichas por kakera`);
     });
 }

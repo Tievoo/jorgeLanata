@@ -9,7 +9,7 @@ type Trade = {
     buyer: string,
     amount: number
 }
-export let pendingTrades : Trade[] = [];
+export let pendingTrades : Map<string, Trade> = new Map();
 
 const ARGS = 1;
 

@@ -7,10 +7,11 @@
   "dependencies": {
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.7"
   },
   "scripts": {
-    "watch:deno" : "deno run --watch --allow-env --allow-read --allow-net --allow-write bot.ts",
+    "watch:deno": "deno run --watch --allow-env --allow-read --allow-net --allow-write bot.ts",
     "watch:bun": "bun --watch run bot.ts"
   }
 }
