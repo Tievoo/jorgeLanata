@@ -62,7 +62,7 @@ export class RouletteMiddle extends RouletteSlot {
     }
 
     toString() {
-        return `Entre ${RouletteNumberEmojis[this.firstNumber]} y ${RouletteNumberEmojis[this.firstNumber]}`;
+        return `Entre ${RouletteNumberEmojis[this.firstNumber]} y ${RouletteNumberEmojis[this.secondNumber]}`;
     }
 
     isOfType(slot: string): boolean {

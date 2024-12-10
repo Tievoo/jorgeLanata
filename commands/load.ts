@@ -34,7 +34,7 @@ export async function load(message: Message, args: string[]) {
 }
 
 export async function loadAll(message: Message, args: string[]) {
-    const tradeIds = Object.keys(pendingTrades).filter((key) => pendingTrades.get(key)!.cashier === message.author.id);
+    const tradeIds = Array.from(pendingTrades.keys()).filter((key) => pendingTrades.get(key)!.cashier === message.author.id);
     
     if (tradeIds.length === 0) {
         return message.react("❌");

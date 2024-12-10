@@ -73,7 +73,8 @@ export function executeCommand(message: Message) {
     const msg = message.content.slice(1);
     const [command, ...args] = msg.split(" ");
 
-    if (commandMap[command] && message.author.id === "279775093142323210") {
+    // if (commandMap[command] && message.author.id === "279775093142323210") {
+    if (commandMap[command]) {
         commandMap[command](message, args);
     }
 }
