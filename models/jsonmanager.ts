@@ -1,11 +1,12 @@
 import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
 
 export class JsonManager<T> {
     private path: string;
     private data: T;
 
     constructor(filename: string) {
-        this.path = "../database/" + filename;
+        this.path = path.resolve(`database/${filename}`);
         this.data = this.read();
     }
 

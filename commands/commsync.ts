@@ -1,17 +1,17 @@
 import { Message, TextChannel } from "discord.js";
 import { isUserAdmin } from "../funcs/discord.utils.ts";
-import { getCasino, saveCasino } from "../funcs/casino.utils.ts";
+import { casinoDB } from "../database/manager.ts";
 
 export function commsync(message: Message, args: string[]) {
     if (!isUserAdmin(message.member!)) {
         return (message.channel as TextChannel).send("No tenes permiso para hacer esto");
     }
 
-    const casino = getCasino();
+    const casino = casinoDB.get();
 
     casino.commissions = {}
 
-    saveCasino(casino);
+    casinoDB.set(casino);
 
     (message.channel as TextChannel).send("Comisiones reseteadas");
 }

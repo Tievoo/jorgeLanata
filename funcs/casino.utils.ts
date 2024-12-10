@@ -1,4 +1,4 @@
-import { casinoDB } from '../database/manager';
+import { casinoDB } from '../database/manager.ts';
 
 const TIEVO_USER_ID = "279775093142323210"
 
