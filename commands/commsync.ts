@@ -1,6 +1,6 @@
 import { Message, TextChannel } from "discord.js";
-import { isUserAdmin } from "../funcs/discord.utils";
-import { getCasino, saveCasino } from "../funcs/casino.utils";
+import { isUserAdmin } from "../funcs/discord.utils.ts";
+import { getCasino, saveCasino } from "../funcs/casino.utils.ts";
 
 export function commsync(message: Message, args: string[]) {
     if (!isUserAdmin(message.member!)) {
