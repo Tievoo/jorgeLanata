@@ -59,6 +59,10 @@ export function getCommissions() {
     return getCasino().commissions;
 }
 
-function getCasino() {
+export function getCasino() {
     return JSON.parse(readFileSync('./database/casino.json', 'utf-8'));
+}
+
+export function saveCasino(casino: any) {
+    writeFileSync('./database/casino.json', JSON.stringify(casino, null, 4));
 }

@@ -18,6 +18,8 @@ import { rbetr } from "./commands/ruleta/rbetr.ts";
 import { rreset } from "./commands/ruleta/rreset.ts";
 import { rnext } from "./commands/ruleta/rnext.ts";
 import { rinfo } from "./commands/ruleta/rinfo.ts";
+import { sroll } from "./commands/slots/sroll.ts";
+import { commsync } from "./commands/commsync.ts";
 
 type Command = (message: Message, args: string[]) => void;
 
@@ -38,6 +40,9 @@ const commandMap : Record<string, Command> = {
 
     "cl": commissionlist,
     "commissionlist": commissionlist,
+
+    "cs": commsync,
+    "commsync": commsync,
 
     "lo": load,
     "load": load,
@@ -60,6 +65,8 @@ const commandMap : Record<string, Command> = {
     "rreset": rreset,
     "rhelp": rhelp,
     "rinfo": rinfo,
+
+    "sroll": sroll,
 
     "ctest": test,
     "rnext": rnext
