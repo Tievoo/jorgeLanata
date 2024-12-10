@@ -3,6 +3,6 @@ module.exports = {
     name: "lanata",
     script: "bot.ts",
     interpreter: "deno",
-    interpreter_args: "run --allow-net --allow-read --allow-write",
+    interpreter_args: "run --allow-env --allow-net --allow-read --allow-write",
   }]
 };
