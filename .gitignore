@@ -1,3 +1,4 @@
 .env
-
 node_modules/
+database/casino.json
+database/leaderboard.json
