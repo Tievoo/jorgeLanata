@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { casinoDB } from '../database/manager';
 
 const TIEVO_USER_ID = "279775093142323210"
 
@@ -7,7 +7,7 @@ export const CASHIR_COMM = 0.05;
 
 export function addBalance(userId: string, amount: number) {
     // Aca cargaríamos la guita
-    const casino = getCasino();
+    const casino = casinoDB.get();
     const user = casino.users[userId];
 
     if (!user) {
@@ -18,13 +18,13 @@ export function addBalance(userId: string, amount: number) {
         casino.users[userId].balance += amount;
     }
 
-    writeFileSync('./database/casino.json', JSON.stringify(casino, null, 4));
+    casinoDB.set(casino);
 }
 
 export function addCommissions(userId: string, amount: number, buyerId: string) {
     if (amount <= 0) return;
 
-    const casino = getCasino();
+    const casino = casinoDB.get();
     
     if (!casino.commissions[TIEVO_USER_ID]) casino.commissions[TIEVO_USER_ID] = 0;
     if (!casino.commissions[userId]) casino.commissions[userId] = 0;
@@ -37,11 +37,11 @@ export function addCommissions(userId: string, amount: number, buyerId: string) 
         casino.commissions[userId] += Math.round(amount * CASHIR_COMM);
     }
 
-    writeFileSync('./database/casino.json', JSON.stringify(casino, null, 4));
+    casinoDB.set(casino);
 }
 
 export function getBalance(userId: string) {
-    const casino = getCasino();
+    const casino = casinoDB.get();
     const user = casino.users[userId];
 
     if (!user) {
@@ -56,13 +56,5 @@ export function hasNoBalance(userId: string) {
 }
 
 export function getCommissions() {
-    return getCasino().commissions;
-}
-
-export function getCasino() {
-    return JSON.parse(readFileSync('./database/casino.json', 'utf-8'));
-}
-
-export function saveCasino(casino: any) {
-    writeFileSync('./database/casino.json', JSON.stringify(casino, null, 4));
+    return casinoDB.get().commissions;
 }

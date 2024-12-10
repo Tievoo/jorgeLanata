@@ -1,12 +1,12 @@
 // utils.js
-import { ColorResolvable, EmbedBuilder, HexColorString } from "discord.js";
+import { EmbedBuilder, HexColorString } from "discord.js";
 import { client } from "../bot.ts";
-import { Top } from "../types/db.types.ts";
+import { Leaderboard } from "../types/db.types.ts";
 import { kakeraEmoji } from "./discord.utils.ts";
 
 export type UserPoints = Record<string, number>;
 
-export async function sumUserPoints(top: Top) : Promise<UserPoints> {	
+export async function sumUserPoints(top: Leaderboard) : Promise<UserPoints> {	
     const userPoints = {};
 
     for (const game of Object.keys(top)) {

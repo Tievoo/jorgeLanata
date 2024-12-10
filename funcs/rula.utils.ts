@@ -14,7 +14,7 @@ import {
     ROULETTE_MIN
 } from "../models/roulette.ts";
 import { Bet, Roulette } from "../types/casino.types.ts";
-import { addBalance, getBalance, hasNoBalance } from "./casino.utils.ts";
+import { addBalance, hasNoBalance } from "./casino.utils.ts";
 
 export const rouletteState: Map<string, Roulette> = new Map<string, Roulette>();
 
@@ -138,13 +138,13 @@ export function usersWithoutBet(channelId: string) {
     return Object.values(roulette!.players).filter(player => player.bets.length === 0);
 }
 
-export function parseBet(bets: string[], userId: string): Bet[] {
+export function parseBet(bets: string[], allIn: number): Bet[] {
 
     const multiBets : string[] = [];
 
     const parsed : Bet[] = bets.map(bet => {
         let [slot, amount] = bet.split(":");
-        if (amount === "all") amount = getBalance(userId).toString();
+        if (amount === "all") amount = allIn.toString();
         
         if (/^\[.+\]$/.test(slot)) {
             const numbers = slot.slice(1, -1).replace(/ /g, "").split(",");
@@ -165,7 +165,7 @@ export function parseBet(bets: string[], userId: string): Bet[] {
     }).filter((bet): bet is Bet => !!bet);
 
     if (multiBets.length) {
-        parsed.push(...parseBet(multiBets, userId))
+        parsed.push(...parseBet(multiBets, allIn))
     }
 
     return parsed;

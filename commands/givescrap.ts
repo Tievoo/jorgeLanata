@@ -1,6 +1,6 @@
 import { MUDAE_USER_ID } from "../bot.ts";
-import { readFileSync, writeFileSync } from "node:fs";
 import { Message, MessageReaction, User } from "discord.js";
+import { leaderboardDB } from "../database/manager.ts";
 
 let actualGame : string | null = null;
 
@@ -32,18 +32,17 @@ export async function givescrap(message : Message, args : string[]) {
 }
 
 const addToUserId = (userId : string, gameId : string, amount : number) => {
-    const rawData = readFileSync('./database/leaderboard.json', 'utf-8');
-    const top = JSON.parse(rawData);
+    const leaderboard = leaderboardDB.get();
 
-    if (!top[gameId]) return // Vemos
+    if (!leaderboard[gameId]) return // Vemos
 
-    const useridx = top[gameId].users.findIndex((user: User) => user.id === userId);
+    const useridx = leaderboard[gameId].users.findIndex((user) => user.id === userId);
 
     if (useridx === -1) {
-        top[gameId].users.push({ id: userId, amount });
+        leaderboard[gameId].users.push({ id: userId, amount });
     } else {
-        top[gameId].users[useridx].amount += amount;
+        leaderboard[gameId].users[useridx].amount += amount;
     }
 
-    writeFileSync('./database/leaderboard.json', JSON.stringify(top, null, 4));
+    leaderboardDB.set(leaderboard);
 }

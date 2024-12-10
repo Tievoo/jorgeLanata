@@ -1,7 +1,7 @@
-import fs from "node:fs";
 import { Game } from "../types/db.types.ts";
+import { gamesDB } from "../database/manager.ts";
 
 export function findGameById(id: string) {
-    const data : Game[] = JSON.parse(fs.readFileSync("./database/games.json", "utf-8"));
+    const data : Game[] = gamesDB.get();
     return data.find((game: Game) => game.id === id.toLowerCase());
 }

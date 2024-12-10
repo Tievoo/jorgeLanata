@@ -21,8 +21,11 @@ export function rbet(message: Message, args: string[], repeat?: boolean, double?
             const lastBet = getBet(message.channel.id, message.author.id);
             parsedBet = lastBet;
         }
-
-        else parsedBet = parseBet(args, message.author.id);
+        
+        else {
+            const all : number = getBalance(message.author.id);
+            parsedBet = parseBet(args, all);
+        }
     } catch (error) {
         if (error.message === "Low bet") {
             return message.reply("Apuesta minima " + ROULETTE_MIN);

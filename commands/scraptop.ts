@@ -1,16 +1,16 @@
+import { leaderboardDB } from '../database/manager.ts';
 import { sumUserPoints, buildEmbed } from '../funcs/embed.utils.ts';
 import { findGameById } from '../funcs/find.utils.ts';
-import { readFileSync } from 'node:fs';
-import { Top } from '../types/db.types.ts';
+import { Leaderboard } from '../types/db.types.ts';
 import { Message, TextChannel } from 'discord.js';
 
-export async function buildEmbedGeneral(top: Top) {
+export async function buildEmbedGeneral(top: Leaderboard) {
     const userPoints = await sumUserPoints(top);
     const embed = await buildEmbed(userPoints, "🏆 GENERAL");
     return { embeds: [embed] };
 }
 
-export async function buildEmbedForGame(top: Top, gameName: string) {
+export async function buildEmbedForGame(top: Leaderboard, gameName: string) {
     const game = findGameById(gameName);
 
     if (!game) {
@@ -32,15 +32,13 @@ export async function buildEmbedForGame(top: Top, gameName: string) {
 }
 
 export async function scraptop(message: Message, args: string[]) {
-
-    const rawData = readFileSync('./database/leaderboard.json', 'utf-8');
-    const top = JSON.parse(rawData);
+    const leaderboard = leaderboardDB.get();
     let embed: { embeds: any[]; } | string; 
 
     if (args.length > 0) {
-        embed = await buildEmbedForGame(top, args[0]);
+        embed = await buildEmbedForGame(leaderboard, args[0]);
     } else {
-        embed = await buildEmbedGeneral(top);
+        embed = await buildEmbedGeneral(leaderboard);
     }
     await (message.channel as TextChannel).send(embed);
 

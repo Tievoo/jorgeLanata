@@ -12,7 +12,7 @@ export function commissionlist(message: Message, args: string[]) {
 function embed(comms: Record<string, number>) {
     const embed = new EmbedBuilder();
     embed.setTitle("Comisiones");
-    let description = "";
+    let description = "Comisiones de los usuarios:\n";
 
     for (const userId in comms) {
         description += `<@${userId}>: ${comms[userId]} ${kakeraEmoji} puntos de comisión\n`;
