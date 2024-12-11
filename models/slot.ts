@@ -1,5 +1,6 @@
 import { Message, TextChannel } from "discord.js";
 import { addBalance } from "../funcs/casino.utils.ts";
+import { kakeraEmoji } from "../funcs/discord.utils.ts";
 
 type Slot = { icon: string; weight: number; payout: number; };
 
@@ -9,7 +10,8 @@ export class SlotGame {
         { icon: "🍋", weight: 25, payout: 3 },
         { icon: "🍇", weight: 20, payout: 3.5 },
         { icon: "🍉", weight: 15, payout: 4 },
-        { icon: "⭐", weight: 10, payout: 5 },
+        { icon: "⭐", weight: 9, payout: 5 },
+        { icon: kakeraEmoji, weight: 1, payout: 50}
     ];
 
     private static readonly TOTAL_WEIGHT = 100;

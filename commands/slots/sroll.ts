@@ -14,8 +14,8 @@ export function sroll(message: Message, args: string[]) {
         return (message.channel as TextChannel).send("Pone un numero gilazo");
     }
 
-    if (![100, 500].includes(bet)) {
-        return (message.channel as TextChannel).send("Solo podes apostar 100 o 500");
+    if (![100, 500, 1000].includes(bet)) {
+        return (message.channel as TextChannel).send("Solo podes apostar 100, 500 o 1000");
     }
 
     if (getBalance(message.author.id) < bet) {
