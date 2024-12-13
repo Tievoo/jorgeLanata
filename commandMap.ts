@@ -72,7 +72,7 @@ const commandMap : Record<string, Command> = {
     "rnext": rnext
 }
 
-function test(message: Message, args: string[]) {
+function test(message: Message, _: string[]) {
     message.reply("<:0_:1315196027128643584>");
 }
 

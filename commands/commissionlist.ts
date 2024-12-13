@@ -2,7 +2,7 @@ import { EmbedBuilder, Message, TextChannel } from "discord.js";
 import { getCommissions } from "../funcs/casino.utils.ts";
 import { kakeraEmoji } from "../funcs/discord.utils.ts";
 
-export function commissionlist(message: Message, args: string[]) {
+export function commissionlist(message: Message, _: string[]) {
     const comms = getCommissions()
     return (message.channel as TextChannel).send({
         embeds: [embed(comms)]

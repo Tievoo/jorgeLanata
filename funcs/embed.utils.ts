@@ -6,8 +6,8 @@ import { kakeraEmoji } from "./discord.utils.ts";
 
 export type UserPoints = Record<string, number>;
 
-export async function sumUserPoints(top: Leaderboard) : Promise<UserPoints> {	
-    const userPoints = {};
+export function sumUserPoints(top: Leaderboard) : UserPoints {	
+    const userPoints : UserPoints = {};
 
     for (const game of Object.keys(top)) {
         for (const user of top[game].users) {
@@ -54,7 +54,7 @@ export async function buildEmbed(userPoints: UserPoints, title:string , logo? : 
 }
 
 function numberToEmoji(number: number) {
-    const emojis = {
+    const emojis : Record<number,string> = {
         1: ":first_place:",
         2: ":second_place:",
         3: ":third_place:",

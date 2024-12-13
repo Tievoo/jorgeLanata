@@ -12,7 +12,7 @@ export const client = new Client({
         GatewayIntentBits.MessageContent,
     ],
 });
-const { TOKEN } = process.env;
+const TOKEN = Deno.env.get("TOKEN")!;
 
 export const MUDAE_USER_ID = "432610292342587392"
 
@@ -95,7 +95,7 @@ try {
         }
     });
 
-    client.on('messageCreate', async (message) => {
+    client.on('messageCreate', (message) => {
         if (message.content.startsWith("$")) {
             executeCommand(message);
         }

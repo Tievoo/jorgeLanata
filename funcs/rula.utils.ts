@@ -33,13 +33,17 @@ const rouletteSlotMap: Record<string, new () => RouletteSlot> = {
     third: RouletteThirdDozen,
 };
 
-function getPerpendicularNumbers(num: number): number[] {
+export function getPerpendicularNumbers(num: number): number[] {
     const columns = 3;
 
     const row = Math.ceil(num / columns);
     const col = (num - 1) % columns + 1;
 
     const neighbors: number[] = [];
+
+    if (num === 0) {
+        return [1,2,3]
+    }
 
     if (row > 1) {
         neighbors.push(num - columns);
@@ -55,6 +59,10 @@ function getPerpendicularNumbers(num: number): number[] {
 
     if (col < columns) {
         neighbors.push(num + 1);
+    }
+
+    if (num < 4) {
+        neighbors.push(0);
     }
 
     return neighbors;

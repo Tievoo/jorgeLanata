@@ -2,7 +2,7 @@ import { Message, TextChannel } from "discord.js";
 import { isUserAdmin } from "../funcs/discord.utils.ts";
 import { casinoDB } from "../database/manager.ts";
 
-export function commsync(message: Message, args: string[]) {
+export function commsync(message: Message, _: string[]) {
     if (!isUserAdmin(message.member!)) {
         return (message.channel as TextChannel).send("No tenes permiso para hacer esto");
     }

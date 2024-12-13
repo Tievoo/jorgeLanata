@@ -7,7 +7,6 @@
   "dependencies": {
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
-    "jest": "^29.7.0",
     "nodemon": "^3.1.7",
     "pm2": "^5.4.3"
   },
@@ -15,11 +14,5 @@
     "watch:deno": "deno run --watch --allow-env --allow-read --allow-net --allow-write bot.ts",
     "watch:bun": "bun --watch run bot.ts",
     "run:deno": "deno run --allow-env --allow-read --allow-net --allow-write bot.ts"
-  },
-  "devDependencies": {
-    "@jest/globals": "^29.7.0",
-    "@types/jest": "^29.5.14",
-    "ts-jest": "^29.2.5",
-    "typescript": "^5.7.2"
   }
 }

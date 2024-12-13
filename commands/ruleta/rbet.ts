@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
-import { addBetsToPlayer, displayBet, getBet, getPrevBet, isPlayerInRoulette, parseBet, resetBet, resetBetAndRefund } from "../../funcs/rula.utils.ts";
-import { addBalance, getBalance } from "../../funcs/casino.utils.ts";
+import { addBetsToPlayer, displayBet, getBet, getPrevBet, isPlayerInRoulette, parseBet, resetBetAndRefund } from "../../funcs/rula.utils.ts";
+import {  getBalance } from "../../funcs/casino.utils.ts";
 import { Bet } from "../../types/casino.types.ts";
 import { ROULETTE_MIN } from "../../models/roulette.ts";
 
@@ -27,7 +27,7 @@ export function rbet(message: Message, args: string[], repeat?: boolean, double?
             parsedBet = parseBet(args, all);
         }
     } catch (error) {
-        if (error.message === "Low bet") {
+        if ((error as Error).message === "Low bet") {
             return message.reply("Apuesta minima " + ROULETTE_MIN);
         }
         return message.reply("Apuesta invalida tarado");
