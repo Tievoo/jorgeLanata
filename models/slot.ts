@@ -8,7 +8,7 @@ export class SlotGame {
         { icon: "🍒", weight: 25, three: 3, two:1.2 },
         { icon: "🍋", weight: 25, three: 3, two: 1.2 },
         { icon: "🍇", weight: 15, three: 8, two:2 },
-        { icon: "🍊", weight: 15, three: 9, two:2.5 },
+        { icon: "🍊", weight: 15, three: 8, two:2 },
         { icon: "💎", weight: 8, three: 25, two:8 },
         { icon: "🍀", weight: 8, three: 30, two:8 },
         { icon: "🌟", weight: 4, three: 50, two:15 },
