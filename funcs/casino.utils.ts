@@ -2,7 +2,7 @@ import { casinoDB } from '../database/manager.ts';
 
 const TIEVO_USER_ID = "279775093142323210"
 
-export const TIEVO_COMM = 0.15;
+export const TIEVO_COMM = 0.02;
 export const CASHIR_COMM = 0.05;
 
 export function addBalance(userId: string, amount: number) {
