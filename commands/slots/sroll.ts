@@ -4,9 +4,9 @@ import { addBalance, getBalance } from "../../funcs/casino.utils.ts";
 import { isTievo } from "../../funcs/discord.utils.ts";
 
 export function sroll(message: Message, args: string[]) {
-    if (!isTievo(message.author.id)) {
-        return (message.channel as TextChannel).send("ESTO ESTÁ EN ETAPA DE PRUEBA");
-    }
+    // if (!isTievo(message.author.id)) {
+    //     return (message.channel as TextChannel).send("ESTO ESTÁ EN ETAPA DE PRUEBA");
+    // }
 
     const bet = parseInt(args[0]);
 

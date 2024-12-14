@@ -1,17 +1,17 @@
 import { Message, TextChannel } from "discord.js";
 import { addBalance } from "../funcs/casino.utils.ts";
-import { kakeraEmoji } from "../funcs/discord.utils.ts";
 
-type Slot = { icon: string; weight: number; payout: number; };
+type Slot = { icon: string; weight: number; three: number; two: number; };
 
 export class SlotGame {
     private static readonly emojiWeights: Slot[] = [
-        { icon: "🍒", weight: 30, payout: 2 },
-        { icon: "🍋", weight: 25, payout: 3 },
-        { icon: "🍇", weight: 20, payout: 3.5 },
-        { icon: "🍉", weight: 15, payout: 4 },
-        { icon: "⭐", weight: 9, payout: 5 },
-        { icon: kakeraEmoji, weight: 1, payout: 50}
+        { icon: "🍒", weight: 25, three: 3.5, two:1 },
+        { icon: "🍋", weight: 25, three: 4, two: 1 },
+        { icon: "🍇", weight: 15, three: 8, two:2 },
+        { icon: "🍊", weight: 15, three: 10, two:2 },
+        { icon: "💎", weight: 8, three: 20, two:5 },
+        { icon: "🍀", weight: 8, three: 25, two:5 },
+        { icon: "🌟", weight: 4, three: 50, two:8 },
     ];
 
     private static readonly TOTAL_WEIGHT = 100;
@@ -34,11 +34,12 @@ export class SlotGame {
 
     static calculatePayout(result: Slot[], bet: number): number {
         if (result[0].icon === result[1].icon && result[1].icon === result[2].icon) {
-            return result[0].payout * bet;
+            return result[0].three * bet;
         }
-        // if (result[0].icon === result[1].icon || result[1].icon === result[2].icon) {
-        //     return result[1].payout * 2;
-        // }
+        if (result[0].icon === result[1].icon || result[1].icon === result[2].icon || result[0].icon === result[2].icon) {
+            const twoMatch = result[0].icon === result[1].icon || result[1].icon === result[2].icon ? result[1] : result[0];
+            return twoMatch.two * bet;
+        }
         return 0;
     }
 
@@ -47,7 +48,7 @@ export class SlotGame {
         const payout = this.calculatePayout(result, bet);
         const slotString = result.map(emoji => emoji.icon).join(" ");
         addBalance(message.author.id, payout);
-        return (message.channel as TextChannel).send(`${slotString}\n${payout ? `You won ${payout}!` : "You lost!"}`);
+        return (message.channel as TextChannel).send(`${slotString}\n${payout ? `Ganaste ${payout}!` : "La perdiste toda"}`);
     }
 
 
