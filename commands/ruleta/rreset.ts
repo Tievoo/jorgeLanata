@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { hasRoulette, isPlayerInRoulette, resetBetAndRefund, rouletteState } from "../../funcs/rula.utils.ts";
+import { hasRoulette, isPlayerInRoulette, resetBetAndRefund } from "../../funcs/rula.utils.ts";
 
 export function rreset(message: Message, args: string[]) {
     if (!hasRoulette(message.channel.id)) {

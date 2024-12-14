@@ -33,7 +33,7 @@ export async function load(message: Message, args: string[]) {
     await message.reply(`Se le ${ amount > 0 ? "cargaron" : "removieron"} ${Math.abs(amount)} puntos a <@${userId}>`);
 }
 
-export async function loadAll(message: Message, args: string[]) {
+export async function loadAll(message: Message, _: string[]) {
     const tradeIds = Array.from(pendingTrades.keys()).filter((key) => pendingTrades.get(key)!.cashier === message.author.id);
     
     if (tradeIds.length === 0) {

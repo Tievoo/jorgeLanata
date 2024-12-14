@@ -1,4 +1,4 @@
-import { Message, TextChannel } from "discord.js";
+import { Message, MessageReaction, TextChannel, User } from "discord.js";
 import { client } from "../bot.ts";
 import { pendingTrades } from "./buy.ts";
 import { getBalance } from "../funcs/casino.utils.ts";
@@ -31,13 +31,13 @@ export async function sell(message: Message, args: string[]) {
     const cajeroMessage = await admin_channel.send("Che " + message.author.username + " quiere **vender** " + amount + " de scrap quien le hace la segunda?");
     await cajeroMessage.react("✅");
 
-    const filter = (reaction, user) => {
+    const filter = (reaction : MessageReaction, user: User) => {
         return reaction.emoji.name === "✅" && user.id !== client.user!.id;
     }
 
     const collector = cajeroMessage.createReactionCollector({ filter, time: 60000, max: 1 });
 
-    collector.on("collect", async (reaction, user) => {
+    collector.on("collect", async (_, user) => {
         pendingTrades.set(user.id, {
             cashier: user.id,
             buyer: message.author.id,

@@ -2,15 +2,12 @@ import { Message } from "discord.js";
 import { Bet, Roulette } from "../../types/casino.types.ts";
 import { displayBet, getBet, getBetAmount, isPlayerInRoulette, rouletteState } from "../../funcs/rula.utils.ts";
 
-export async function rinfo(message: Message, args: string[]) {
+export function rinfo(message: Message, _: string[]) {
     const roulette = rouletteState.get(message.channel.id)
     if (!roulette) {
         return message.reply("No hay una ruleta en este canal.");
     }
 
-    // if (!isPlayerInRoulette(message.channel.id, message.author.id)) {
-    //     return message.reply("No estas en la ruleta de este canal.");
-    // }
     return message.reply({embeds: [embed(roulette, message)]})
 }
 
@@ -33,7 +30,7 @@ export function embed(roulette: Roulette, message: Message) {
         bet = getBet(message.channel.id, message.author.id)
     } else bet = null
 
-    let totalPlayers = Object.keys(roulette.players).length
+    const totalPlayers = Object.keys(roulette.players).length
 
     return {
         title: "Información de la ruleta",

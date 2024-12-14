@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 import { addPlayerToRoulette, rouletteState } from "../../funcs/rula.utils.ts";
 import { hasNoBalance } from "../../funcs/casino.utils.ts";
 
-export async function rjoin(message: Message, args: string[]) {
+export async function rjoin(message: Message, _: string[]) {
     const roulette = rouletteState.get(message.channel.id);
 
     if (!roulette) {

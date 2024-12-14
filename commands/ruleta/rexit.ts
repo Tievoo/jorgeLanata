@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { rouletteState } from "../../funcs/rula.utils.ts";
 
-export async function rexit(message: Message, args: string[]) {
+export async function rexit(message: Message, _: string[]) {
     const roulette = rouletteState.get(message.channel.id);
 
     if (!roulette) {

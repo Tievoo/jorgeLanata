@@ -1,9 +1,9 @@
-import { Message, TextChannel, User } from "discord.js";
+import { Message, MessageReaction, TextChannel, User } from "discord.js";
 import { addPlayerToRoulette, rouletteState, startRoulette } from "../../funcs/rula.utils.ts";
 import { hasNoBalance } from "../../funcs/casino.utils.ts";
 import { ROULETTE_MIN } from "../../models/roulette.ts";
 
-export async function rula(message: Message, args: string[]) {
+export async function rula(message: Message, _: string[]) {
     if (rouletteState.has(message.channel.id)) {
         return message.reply("Ya hay una rula en este canal");
     }
@@ -12,13 +12,13 @@ export async function rula(message: Message, args: string[]) {
     const response = await (message.channel as TextChannel).send({ embeds: [embed()] });
     await response.react("👍")
     
-    const filter = (reaction, user: User) => {
+    const filter = (reaction: MessageReaction, user: User) => {
         return reaction.emoji.name === '👍' && !user.bot;
     };
 
     const collector = response.createReactionCollector({ filter, time: 20000 });
 
-    collector.on('collect', async (reaction, user) => {
+    collector.on('collect', async (_, user) => {
         if (hasNoBalance(user.id)) {
             return (message.channel as TextChannel).send("No se puede anotar un usuario sin guita");
         }
@@ -26,7 +26,7 @@ export async function rula(message: Message, args: string[]) {
         await (message.channel as TextChannel).send("Se anoto " + user.username);
     });
 
-    collector.on('end', async collected => {
+    collector.on('end', _ => {
         const roulette = rouletteState.get(message.channel.id);
         const playerNames = Object.values(roulette!.players).map(player => player.name);
 
@@ -37,7 +37,7 @@ export async function rula(message: Message, args: string[]) {
 
 }
 
-export function rhelp(message: Message, args: string[]) {
+export function rhelp(message: Message, _: string[]) {
     return (message.channel as TextChannel).send({ embeds: [embed(true)] });
 }
 

@@ -9,7 +9,7 @@ export function setNxt(n: number | null){
     nxt = n;
 }
 
-export function rroll(message: Message, args: string[]){
+export function rroll(message: Message, _: string[]){
     // Esta funcion tira la rula
     if (!hasRoulette(message.channel.id)) {
         return message.reply("No hay rula en este canal");

@@ -1,6 +1,6 @@
 import { Message, TextChannel } from "discord.js";
 
-const commandDescriptions = {
+const commandDescriptions : Record<string, string> = {
     "$scraptop ($st)": "Muestra el top de puntos de los usuarios. Se puede mandar con un argumento para ver el top de un juego en específico",
     "$commissionlist ($cl)": "Muestra las comisiones de los usuarios",
     "$buy": "Compra fichas de casino por kakera",
@@ -11,7 +11,7 @@ const commandDescriptions = {
     "$loadall ($la)": "(ADMIN-ONLY) Carga todas las transacciones pendientes",
 }
 
-export function help(message: Message, args: string[]) {
+export function help(message: Message, _: string[]) {
     let ans = "**Comandos disponibles:**\n";
     for (const key in commandDescriptions) {
         ans += `**${key}**: ${commandDescriptions[key]}\n`;
