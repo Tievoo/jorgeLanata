@@ -5,10 +5,10 @@ export const ROULETTE_MIN = 20;
 
 
 export abstract class RouletteSlot {
-    readonly name : string;
-    readonly payout : number;
+    abstract readonly name : string;
+    abstract readonly payout : number;
     readonly maxBet = ROULETTE_MIN*50;
-    readonly id: string;
+    readonly id: string | undefined;
     constructor() {}
     abstract shouldPay(number: number): boolean
 
@@ -26,8 +26,9 @@ export abstract class RouletteSlot {
 }
 
 export class RouletteNumber extends RouletteSlot {
-    readonly payout = 36;
-    readonly maxBet: number = ROULETTE_MIN*10;
+    override readonly name = "Numero";
+    override readonly payout = 36;
+    override readonly maxBet: number = ROULETTE_MIN*10;
     number: number;
     constructor(number: number) {
         super();
@@ -38,11 +39,11 @@ export class RouletteNumber extends RouletteSlot {
         return this.number === number;
     }
 
-    toString() {
+    override toString() {
         return RouletteNumberEmojis[this.number];
     }
 
-    isOfType(slot: string): boolean {
+    override isOfType(slot: string): boolean {
         return slot === this.number.toString();
     }
 }
@@ -50,7 +51,8 @@ export class RouletteNumber extends RouletteSlot {
 export class RouletteMiddle extends RouletteSlot {
     firstNumber: number;
     secondNumber: number;
-    readonly payout = 18;
+    override readonly payout = 18;
+    override readonly name = "Mitad";
     constructor(firstNumber: number, secondNumber: number) {
         super();
         this.firstNumber = firstNumber;
@@ -61,19 +63,19 @@ export class RouletteMiddle extends RouletteSlot {
         return this.firstNumber === number || this.secondNumber === number;
     }
 
-    toString() {
+    override toString() {
         return `Entre ${RouletteNumberEmojis[this.firstNumber]} y ${RouletteNumberEmojis[this.secondNumber]}`;
     }
 
-    isOfType(slot: string): boolean {
+    override isOfType(slot: string): boolean {
         return slot === `${this.firstNumber}.${this.secondNumber}`;
     }
 }
 
 export class RouletteRed extends RouletteSlot {
-    readonly name = "Rojo";
-    readonly id = "red"
-    readonly payout = 2;
+    override readonly name = "Rojo";
+    override readonly id = "red"
+    override readonly payout = 2;
 
     shouldPay(number: number): boolean {
         return RouletteManager.isRed(number);
@@ -81,9 +83,9 @@ export class RouletteRed extends RouletteSlot {
 }
 
 export class RouletteBlack extends RouletteSlot {
-    readonly name = "Negro";
-    readonly id = "black";
-    readonly payout = 2;
+    override readonly name = "Negro";
+    override readonly id = "black";
+    override readonly payout = 2;
 
     shouldPay(number: number): boolean {
         return RouletteManager.isBlack(number);
@@ -91,9 +93,9 @@ export class RouletteBlack extends RouletteSlot {
 }
 
 export class RouletteOdd extends RouletteSlot {
-    readonly name = "Impar";
-    readonly id = "odd";
-    readonly payout = 2;
+    override readonly name = "Impar";
+    override readonly id = "odd";
+    override readonly payout = 2;
 
     shouldPay(number: number): boolean {
         return RouletteManager.isOdd(number);
@@ -101,9 +103,9 @@ export class RouletteOdd extends RouletteSlot {
 }
 
 export class RouletteEven extends RouletteSlot {
-    readonly name = "Par";
-    readonly id = "even";
-    readonly payout = 2;
+    override readonly name = "Par";
+    override readonly id = "even";
+    override readonly payout = 2;
 
     shouldPay(number: number): boolean {
         return RouletteManager.isEven(number);
@@ -111,9 +113,9 @@ export class RouletteEven extends RouletteSlot {
 }
 
 export class RouletteLow extends RouletteSlot {
-    readonly name = "1 a 18";
-    readonly id = "low";
-    readonly payout = 2;
+    override readonly name = "1 a 18";
+    override readonly id = "low";
+    override readonly payout = 2;
 
     shouldPay(number: number): boolean {
         return RouletteManager.isLow(number);
@@ -121,9 +123,9 @@ export class RouletteLow extends RouletteSlot {
 }
 
 export class RouletteHigh extends RouletteSlot {
-    readonly name = "19 a 36";
-    readonly id = "high";
-    readonly payout = 2;
+    override readonly name = "19 a 36";
+    override readonly id = "high";
+    override readonly payout = 2;
 
     shouldPay(number: number): boolean {
         return RouletteManager.isHigh(number);
@@ -131,9 +133,9 @@ export class RouletteHigh extends RouletteSlot {
 }
 
 export class RouletteFirstDozen extends RouletteSlot {
-    readonly name = "Primera docena";
-    readonly id = "first";
-    readonly payout = 3;
+    override readonly name = "Primera docena";
+    override readonly id = "first";
+    override readonly payout = 3;
 
     shouldPay(number: number): boolean {
         return RouletteManager.isFirstDozen(number);
@@ -141,9 +143,9 @@ export class RouletteFirstDozen extends RouletteSlot {
 }
 
 export class RouletteSecondDozen extends RouletteSlot {
-    readonly name = "Segunda docena";
-    readonly id = "second";
-    readonly payout = 3;
+    override readonly name = "Segunda docena";
+    override readonly id = "second";
+    override readonly payout = 3;
 
     shouldPay(number: number): boolean {
         return RouletteManager.isSecondDozen(number);
@@ -152,9 +154,9 @@ export class RouletteSecondDozen extends RouletteSlot {
 
 
 export class RouletteThirdDozen extends RouletteSlot {
-    readonly name = "Tercera docena";
-    readonly id = "third";
-    readonly payout = 3;
+    override readonly name = "Tercera docena";
+    override readonly id = "third";
+    override readonly payout = 3;
 
     shouldPay(number: number): boolean {
         return RouletteManager.isThirdDozen(number);

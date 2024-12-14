@@ -1,5 +1,8 @@
 import { getPerpendicularNumbers } from "../../funcs/rula.utils.ts"
 import { assertArrayIncludes } from "jsr:@std/assert"
+import { replaceCasinoWithMock } from "../jsonmanager.mock.ts";
+
+replaceCasinoWithMock({ users: {}, commissions: {} })
 
 Deno.test("perpendicular numbers are found for zero", () => {
     assertArrayIncludes(getPerpendicularNumbers(0), [1,2,3]);
