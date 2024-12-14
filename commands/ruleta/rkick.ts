@@ -1,8 +1,15 @@
 import { Message } from "discord.js";
 import { isPlayerInRoulette, rouletteState } from "../../funcs/rula.utils.ts";
+import { isUserAdmin } from "../../funcs/discord.utils.ts";
 
 export function rkick(message: Message, _: string[]) {
     const member = message.mentions.members?.first();
+
+    if (!isUserAdmin(message.member!)) {
+        message.reply("No tienes permisos para hacer eso");
+        return;
+    }
+
     if (!member) {
         message.reply("No se ha mencionado a un usuario");
         return;
@@ -12,6 +19,8 @@ export function rkick(message: Message, _: string[]) {
         message.reply("Tira rexit para eso boludazo");
         return;
     }
+    
+
 
     const roulette = rouletteState.get(message.channel.id);
 
