@@ -4,7 +4,7 @@ import { pendingTrades } from "./buy.ts";
 import { getBalance } from "../funcs/casino.utils.ts";
 import { kakeraEmoji } from "../funcs/discord.utils.ts";
 
-const ADMIN_CHANNEL = "790747207665319947";
+const ADMIN_CHANNEL = "1317363297841975337";
 
 const ARGS = 1;
 
