@@ -12,7 +12,7 @@ function embed() {
         description += `${slot.icon} - **${slot.weight}%**. Paga **x${slot.three}** con ${slot.icon}${slot.icon}${slot.icon}, paga **x${slot.two}** con ${slot.icon}${slot.icon}-\n`;
     }
 
-    description += `Al caer 2 iguales **comunes** (🍒, 🍋, 🍇, 🍊) y el tercero es **raro** (💎, 🍀, 🌟), el pago se **duplica**.\n`;
+    description += `Al caer 2 iguales **comunes** (🍒, 🍋, 🍇, 🍊) y el tercero es una 🌟, el pago se multiplica **x1.5**.\n`;
 
     return {
         title: "Slots",

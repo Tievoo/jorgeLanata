@@ -5,12 +5,12 @@ type Slot = { icon: string; weight: number; three: number; two: number; };
 
 export class SlotGame {
     static readonly emojiWeights: Slot[] = [
-        { icon: "🍒", weight: 25, three: 3.5, two:1.5 },
-        { icon: "🍋", weight: 25, three: 4, two: 1.5 },
-        { icon: "🍇", weight: 15, three: 12, two:2.5 },
-        { icon: "🍊", weight: 15, three: 14, two:3 },
-        { icon: "💎", weight: 8, three: 30, two:8 },
-        { icon: "🍀", weight: 8, three: 35, two:8 },
+        { icon: "🍒", weight: 25, three: 3, two:1.2 },
+        { icon: "🍋", weight: 25, three: 3, two: 1.2 },
+        { icon: "🍇", weight: 15, three: 8, two:2 },
+        { icon: "🍊", weight: 15, three: 9, two:2.5 },
+        { icon: "💎", weight: 8, three: 25, two:8 },
+        { icon: "🍀", weight: 8, three: 30, two:8 },
         { icon: "🌟", weight: 4, three: 50, two:15 },
     ];
 
@@ -40,8 +40,8 @@ export class SlotGame {
             const twoMatch = result[0].icon === result[1].icon || result[1].icon === result[2].icon ? result[1] : result[0];
             const thirdIcon = result[0].icon === result[1].icon ? result[2] : result[0];
 
-            if (twoMatch.two < 5 && thirdIcon.two > 5) {
-                return twoMatch.two * bet * 2;
+            if (twoMatch.two < 5 && thirdIcon.icon === "🌟") {
+                return twoMatch.two * bet * 1.5;
             }
             return twoMatch.two * bet;
         }
