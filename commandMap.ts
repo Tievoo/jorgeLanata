@@ -21,6 +21,7 @@ import { rinfo } from "./commands/ruleta/rinfo.ts";
 import { sroll } from "./commands/slots/sroll.ts";
 import { commsync } from "./commands/commsync.ts";
 import { rkick } from "./commands/ruleta/rkick.ts";
+import { shelp } from "./commands/slots/shelp.ts";
 
 type Command = (message: Message, args: string[]) => void;
 
@@ -69,6 +70,7 @@ const commandMap : Record<string, Command> = {
     "rkick": rkick,
 
     "sroll": sroll,
+    "shelp": shelp,
 
     "ctest": test,
     "rnext": rnext

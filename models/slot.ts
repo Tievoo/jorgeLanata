@@ -4,13 +4,13 @@ import { addBalance } from "../funcs/casino.utils.ts";
 type Slot = { icon: string; weight: number; three: number; two: number; };
 
 export class SlotGame {
-    private static readonly emojiWeights: Slot[] = [
+    static readonly emojiWeights: Slot[] = [
         { icon: "🍒", weight: 25, three: 3.5, two:1.5 },
         { icon: "🍋", weight: 25, three: 4, two: 1.5 },
-        { icon: "🍇", weight: 15, three: 8, two:2.5 },
-        { icon: "🍊", weight: 15, three: 10, two:3 },
-        { icon: "💎", weight: 8, three: 20, two:8 },
-        { icon: "🍀", weight: 8, three: 25, two:8 },
+        { icon: "🍇", weight: 15, three: 12, two:2.5 },
+        { icon: "🍊", weight: 15, three: 14, two:3 },
+        { icon: "💎", weight: 8, three: 30, two:8 },
+        { icon: "🍀", weight: 8, three: 35, two:8 },
         { icon: "🌟", weight: 4, three: 50, two:15 },
     ];
 
