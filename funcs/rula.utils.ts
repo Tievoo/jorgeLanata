@@ -115,7 +115,7 @@ export function isPlayerInRoulette(channelId: string, playerId: string) {
     return playerId in roulette.players;
 }
 
-function convertToRouletteSlot(slot: string): RouletteSlot {
+export function convertToRouletteSlot(slot: string): RouletteSlot {
     if (validRouletteSlots.includes(slot)) {
         return new rouletteSlotMap[slot]();
     }
