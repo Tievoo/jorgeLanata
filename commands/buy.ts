@@ -1,15 +1,15 @@
-import { Message, TextChannel } from "discord.js";
+import { Message, MessageReaction, TextChannel, User } from "discord.js";
 import { client } from "../bot.ts"
 import { kakeraEmoji } from "../funcs/discord.utils.ts";
 
-const ADMIN_CHANNEL = "790747207665319947"
+const ADMIN_CHANNEL = "1317363297841975337"
 
 type Trade = {
     cashier: string,
     buyer: string,
     amount: number
 }
-export let pendingTrades : Map<string, Trade> = new Map();
+export const pendingTrades : Map<string, Trade> = new Map();
 
 const ARGS = 1;
 
@@ -31,13 +31,13 @@ export async function buy(message : Message, args : string[]) {
     const cajeroMessage = await admin_channel.send("Che " + message.author.username + " quiere **comprar** " + amount + " de scrap quien le hace la segunda?");
     await cajeroMessage.react("✅");
 
-    const filter = (reaction, user) => {
+    const filter = (reaction : MessageReaction, user: User) => {
         return reaction.emoji.name === "✅" && user.id !== client.user!.id;
     }
 
     const collector = cajeroMessage.createReactionCollector({ filter, time: 60000, max:1 });
 
-    collector.on("collect", async (reaction, user) => {
+    collector.on("collect", async (_, user) => {
         pendingTrades.set(user.id, {
             cashier: user.id,
             buyer: message.author.id,
