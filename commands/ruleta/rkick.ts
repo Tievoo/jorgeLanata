@@ -22,7 +22,7 @@ export function rkick(message: Message, _: string[]) {
     
 
 
-    const roulette = rouletteState.get(message.channel.id);
+    const roulette = rouletteState[message.channel.id];
 
     if (!isPlayerInRoulette(message.channel.id, member.id)) {
         message.reply("El usuario no está en la ruleta");

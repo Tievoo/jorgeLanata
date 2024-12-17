@@ -1,4 +1,5 @@
 import { HexColorString } from "discord.js";
+import { Roulette } from "./casino.types.ts";
 
 export interface Leaderboard {
     [key: string]: {
@@ -15,4 +16,5 @@ export interface Game {
 export interface Casino {
     users: Record<string, { balance: number }>;
     commissions: Record<string, number>;
+    roulettes: Record<string, Roulette>;
 }

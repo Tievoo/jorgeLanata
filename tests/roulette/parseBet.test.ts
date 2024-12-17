@@ -3,8 +3,9 @@ import { replaceCasinoWithMock } from "../jsonmanager.mock.ts";
 import { parseBet } from "../../funcs/rula.utils.ts";
 import { assertEquals, assertThrows } from "jsr:@std/assert";
 import { RouletteEven, RouletteMiddle, RouletteNumber, RouletteRed } from "../../models/roulette.ts";
+import { emptyCasino } from "./utils.ts";
 
-replaceCasinoWithMock({ users: {}, commissions: {} })
+replaceCasinoWithMock(emptyCasino)
 
 describe("parsing a bet with", () => {
     it("a number should return a number bet", () => {

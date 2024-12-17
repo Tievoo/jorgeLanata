@@ -2,8 +2,9 @@ import { getPerpendicularNumbers } from "../../funcs/rula.utils.ts"
 import { assertArrayIncludes } from "jsr:@std/assert"
 import { describe, it } from "jsr:@std/testing/bdd";
 import { replaceCasinoWithMock } from "../jsonmanager.mock.ts";
+import { emptyCasino } from "./utils.ts";
 
-replaceCasinoWithMock({ users: {}, commissions: {} })
+replaceCasinoWithMock(emptyCasino)
 describe("perpendicular numbers", () => {
     it("are found for zero", () => {
         assertArrayIncludes(getPerpendicularNumbers(0), [1,2,3]);

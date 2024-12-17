@@ -1,3 +1,4 @@
+import { casinoDB } from "../database/manager.ts";
 import {
     RouletteSlot,
     RouletteRed,
@@ -16,7 +17,7 @@ import {
 import { Bet, Roulette } from "../types/casino.types.ts";
 import { addBalance, hasNoBalance } from "./casino.utils.ts";
 
-export const rouletteState: Map<string, Roulette> = new Map<string, Roulette>();
+export const rouletteState: Record<string, Roulette> = casinoDB.get().roulettes;
 
 const validRouletteSlots = ["red", "black", "odd", "even", "low", "high", "first", "second", "third"];
 const validRouletteNumbers = Array.from({ length: 37 }, (_, i) => i).map(String);
@@ -69,14 +70,20 @@ export function getPerpendicularNumbers(num: number): number[] {
 }
 
 export function startRoulette(channelId: string) {
-    rouletteState.set(channelId, {
+    // rouletteState.set(channelId, {
+    //     channelId,
+    //     players: {},
+    // });
+    rouletteState[channelId] = {
         channelId,
         players: {},
-    });
+    }
+
+    casinoDB.setKey("roulettes", rouletteState);
 }
 
 export function addPlayerToRoulette(channelId: string, playerId: string, name: string) {
-    const roulette = rouletteState.get(channelId);
+    const roulette = rouletteState[channelId];
     if (!roulette) return;
 
     roulette.players[playerId] = {
@@ -88,7 +95,7 @@ export function addPlayerToRoulette(channelId: string, playerId: string, name: s
 }
 
 export function addBetsToPlayer(channelId: string, playerId: string, bets: Bet[]) {
-    const roulette = rouletteState.get(channelId);
+    const roulette = rouletteState[channelId];
     if (!roulette) return;
 
     const prevAmount = roulette.players[playerId].bets.reduce((acc, bet) => acc + bet.amount, 0);
@@ -109,7 +116,7 @@ export function addBetsToPlayer(channelId: string, playerId: string, bets: Bet[]
 }
 
 export function isPlayerInRoulette(channelId: string, playerId: string) {
-    const roulette = rouletteState.get(channelId);
+    const roulette = rouletteState[channelId];
     if (!roulette) return false;
 
     return playerId in roulette.players;
@@ -137,11 +144,11 @@ export function convertToRouletteSlot(slot: string): RouletteSlot {
 }
 
 export function hasRoulette(channelId: string) {
-    return rouletteState.has(channelId);
+    return !!rouletteState[channelId];
 }
 
 export function usersWithoutBet(channelId: string) {
-    const roulette = rouletteState.get(channelId);
+    const roulette = rouletteState[channelId];
 
     return Object.values(roulette!.players).filter(player => player.bets.length === 0);
 }
@@ -180,28 +187,28 @@ export function parseBet(bets: string[], allIn: number): Bet[] {
 }
 
 export function getBet(channelId: string, playerId: string) {
-    const roulette = rouletteState.get(channelId);
+    const roulette = rouletteState[channelId];
     if (!roulette) return [];
 
     return roulette.players[playerId].bets;
 }
 
 export function getPrevBet(channelId: string, playerId: string) {
-    const roulette = rouletteState.get(channelId);
+    const roulette = rouletteState[channelId];
     if (!roulette) return [];
 
     return roulette.players[playerId].prevBets;
 }
 
 export function resetBet(channelId: string, playerId: string) {
-    const roulette = rouletteState.get(channelId);
+    const roulette = rouletteState[channelId];
     if (!roulette) return;
 
     roulette.players[playerId].bets = [];
 }
 
 export function resetBetAndRefund(channelId: string, playerId: string, args: string[] = []) {
-    const roulette = rouletteState.get(channelId);
+    const roulette = rouletteState[channelId];
     if (!roulette) return;
 
     const player = roulette.players[playerId];
@@ -217,7 +224,7 @@ export function resetBetAndRefund(channelId: string, playerId: string, args: str
 }
 
 export function resetBets(channelId: string) {
-    const roulette = rouletteState.get(channelId);
+    const roulette = rouletteState[channelId];
     if (!roulette) return;
 
     for (const userId in roulette.players) {

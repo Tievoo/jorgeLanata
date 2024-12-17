@@ -5,9 +5,9 @@ import { replaceCasinoWithMock } from "../jsonmanager.mock.ts";
 import { Roulette } from "../../types/casino.types.ts";
 import { getBalance } from "../../funcs/casino.utils.ts";
 import { casinoDB } from "../../database/manager.ts";
-import { Casino } from "../../types/db.types.ts";
+import { onePlayerBalance2000 } from "./utils.ts";
 
-const onePlayerBalance2000 : Casino = ({ users:{ "1": { balance: 2000 }}, commissions:{} })
+
 
 replaceCasinoWithMock(structuredClone(onePlayerBalance2000))
 
@@ -16,7 +16,7 @@ describe("adding bets", () => {
 
     beforeAll(() => {
         startRoulette("0");
-        roulette = rouletteState.get("0")!;
+        roulette = rouletteState["0"];
         addPlayerToRoulette("0", "1", "test");
     })
 

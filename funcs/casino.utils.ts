@@ -52,7 +52,7 @@ export function getBalance(userId: string) {
 }
 
 export function hasNoBalance(userId: string) {
-    return getBalance(userId) === 0;
+    return getBalance(userId) <= 0;
 }
 
 export function getCommissions() {

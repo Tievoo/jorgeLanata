@@ -1,10 +1,10 @@
 import { Message, MessageReaction, TextChannel, User } from "discord.js";
-import { addPlayerToRoulette, rouletteState, startRoulette } from "../../funcs/rula.utils.ts";
+import { addPlayerToRoulette, hasRoulette, rouletteState, startRoulette } from "../../funcs/rula.utils.ts";
 import { hasNoBalance } from "../../funcs/casino.utils.ts";
 import { ROULETTE_MIN } from "../../models/roulette.ts";
 
 export async function rula(message: Message, _: string[]) {
-    if (rouletteState.has(message.channel.id)) {
+    if (hasRoulette(message.channel.id)) {
         return message.reply("Ya hay una rula en este canal");
     }
 
@@ -27,7 +27,7 @@ export async function rula(message: Message, _: string[]) {
     });
 
     collector.on('end', _ => {
-        const roulette = rouletteState.get(message.channel.id);
+        const roulette = rouletteState[message.channel.id];
         const playerNames = Object.values(roulette!.players).map(player => player.name);
 
         if (playerNames.length === 0) {

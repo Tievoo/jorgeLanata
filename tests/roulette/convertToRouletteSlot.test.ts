@@ -3,8 +3,9 @@ import { assertEquals, assertThrows } from "jsr:@std/assert"
 import { describe, it } from "jsr:@std/testing/bdd";
 import { convertToRouletteSlot } from "../../funcs/rula.utils.ts";
 import { RouletteEven, RouletteMiddle, RouletteNumber, RouletteRed } from "../../models/roulette.ts";
+import { emptyCasino } from "./utils.ts";
 
-replaceCasinoWithMock({ users: {}, commissions: {} })
+replaceCasinoWithMock(emptyCasino)
 
 describe("converting to roulette slot a", () => {
     it("number should return a RouletteNumber", () => {

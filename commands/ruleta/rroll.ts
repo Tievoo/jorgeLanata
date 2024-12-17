@@ -27,7 +27,7 @@ export function rroll(message: Message, _: string[]){
     const result = nxt || Math.floor(Math.random() * 37);
     nxt = null;
 
-    const roulette = rouletteState.get(message.channel.id);
+    const roulette = rouletteState[message.channel.id];
 
     const winningPerUser : Record<string, number> = {};
 

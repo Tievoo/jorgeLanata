@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 import { rouletteState } from "../../funcs/rula.utils.ts";
 
 export async function rexit(message: Message, _: string[]) {
-    const roulette = rouletteState.get(message.channel.id);
+    const roulette = rouletteState[message.channel.id];
 
     if (!roulette) {
         return message.reply("No hay rula en este canal");

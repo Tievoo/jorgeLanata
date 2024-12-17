@@ -18,6 +18,11 @@ export class JsonManager<T> {
         writeFileSync(this.path, JSON.stringify(data, null, 4));
     }
 
+    setKey<K extends keyof T>(key: K, value: T[K]) {
+        this.data[key] = value;
+        this.write(this.data);
+    }
+
     get(): T {
         return this.data;
     }

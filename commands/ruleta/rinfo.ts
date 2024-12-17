@@ -3,7 +3,7 @@ import { Bet, Roulette } from "../../types/casino.types.ts";
 import { displayBet, getBet, getBetAmount, isPlayerInRoulette, rouletteState } from "../../funcs/rula.utils.ts";
 
 export function rinfo(message: Message, _: string[]) {
-    const roulette = rouletteState.get(message.channel.id)
+    const roulette = rouletteState[message.channel.id]
     if (!roulette) {
         return message.reply("No hay una ruleta en este canal.");
     }
