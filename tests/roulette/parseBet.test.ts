@@ -2,7 +2,7 @@ import { describe, it } from "jsr:@std/testing/bdd";
 import { replaceCasinoWithMock } from "../jsonmanager.mock.ts";
 import { parseBet } from "../../funcs/rula.utils.ts";
 import { assertEquals, assertThrows } from "jsr:@std/assert";
-import { RouletteEven, RouletteMiddle, RouletteNumber, RouletteRed } from "../../models/roulette.ts";
+import { RouletteEven, RouletteMiddle, RouletteNumber, RouletteRed } from "../../models/rouletteManager.ts";
 import { emptyCasino } from "./utils.ts";
 
 replaceCasinoWithMock(emptyCasino)

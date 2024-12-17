@@ -1,6 +1,6 @@
 import { Message, TextChannel } from "discord.js";
-import { hasRoulette, isPlayerInRoulette, resetBets, RouletteNumberEmojis, rouletteState, usersWithoutBet } from "../../funcs/rula.utils.ts";
-import { RouletteManager } from "../../models/roulette.ts";
+import { RouletteNumberEmojis, rouletteState } from "../../funcs/rula.utils.ts";
+import { RouletteManager } from "../../models/rouletteManager.ts";
 import { addBalance } from "../../funcs/casino.utils.ts";
 import { RoulettePlayer } from "../../types/casino.types.ts";
 
@@ -11,15 +11,15 @@ export function setNxt(n: number | null){
 
 export function rroll(message: Message, _: string[]){
     // Esta funcion tira la rula
-    if (!hasRoulette(message.channel.id)) {
+    if (!rouletteState.hasRoulette(message.channel.id)) {
         return message.reply("No hay rula en este canal");
     }
 
-    if (!isPlayerInRoulette(message.channel.id, message.author.id)) {
+    if (!rouletteState.isPlayerInRoulette(message.channel.id, message.author.id)) {
         return message.reply("No estas en la rula");
     }
 
-    const usersWOBet = usersWithoutBet(message.channel.id);
+    const usersWOBet = rouletteState.usersWithoutBet(message.channel.id);
     if (usersWOBet.length > 0){
         return message.reply("Faltan apuestas de: " + usersWOBet.map(user => user.name).join(", "));
     }
@@ -27,7 +27,7 @@ export function rroll(message: Message, _: string[]){
     const result = nxt || Math.floor(Math.random() * 37);
     nxt = null;
 
-    const roulette = rouletteState[message.channel.id];
+    const roulette = rouletteState.getRoulette(message.channel.id);
 
     const winningPerUser : Record<string, number> = {};
 
@@ -37,7 +37,7 @@ export function rroll(message: Message, _: string[]){
         addBalance(player.id, winning);
     }
 
-    resetBets(message.channel.id);
+    rouletteState.resetBets(message.channel.id);
 
     const winners = Object.values(roulette!.players).filter(player => winningPerUser[player.id] > 0) 
 

@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { isPlayerInRoulette, rouletteState } from "../../funcs/rula.utils.ts";
+import { rouletteState } from "../../funcs/rula.utils.ts";
 import { isUserAdmin } from "../../funcs/discord.utils.ts";
 
 export function rkick(message: Message, _: string[]) {
@@ -22,13 +22,13 @@ export function rkick(message: Message, _: string[]) {
     
 
 
-    const roulette = rouletteState[message.channel.id];
+    // const roulette = rouletteState.getRoulette(message.channel.id);
 
-    if (!isPlayerInRoulette(message.channel.id, member.id)) {
+    if (!rouletteState.isPlayerInRoulette(message.channel.id, member.id)) {
         message.reply("El usuario no está en la ruleta");
         return;
     }
 
-    delete roulette?.players[member.id];
+    rouletteState.removePlayer(message.channel.id, member.id);
     message.reply("El usuario ha sido expulsado de la ruleta");
 }

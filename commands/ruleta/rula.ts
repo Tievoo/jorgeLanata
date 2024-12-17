@@ -1,14 +1,14 @@
 import { Message, MessageReaction, TextChannel, User } from "discord.js";
-import { addPlayerToRoulette, hasRoulette, rouletteState, startRoulette } from "../../funcs/rula.utils.ts";
+import { rouletteState } from "../../funcs/rula.utils.ts";
 import { hasNoBalance } from "../../funcs/casino.utils.ts";
-import { ROULETTE_MIN } from "../../models/roulette.ts";
+import { ROULETTE_MIN } from "../../models/rouletteManager.ts";
 
 export async function rula(message: Message, _: string[]) {
-    if (hasRoulette(message.channel.id)) {
+    if (rouletteState.hasRoulette(message.channel.id)) {
         return message.reply("Ya hay una rula en este canal");
     }
 
-    startRoulette(message.channel.id);
+    rouletteState.startRoulette(message.channel.id);
     const response = await (message.channel as TextChannel).send({ embeds: [embed()] });
     await response.react("👍")
     
@@ -22,12 +22,12 @@ export async function rula(message: Message, _: string[]) {
         if (hasNoBalance(user.id)) {
             return (message.channel as TextChannel).send("No se puede anotar un usuario sin guita");
         }
-        addPlayerToRoulette(message.channel.id, user.id, user.username);
+        rouletteState.addPlayer(message.channel.id, user.id, user.username);
         await (message.channel as TextChannel).send("Se anoto " + user.username);
     });
 
     collector.on('end', _ => {
-        const roulette = rouletteState[message.channel.id];
+        const roulette = rouletteState.getRoulette(message.channel.id);
         const playerNames = Object.values(roulette!.players).map(player => player.name);
 
         if (playerNames.length === 0) {

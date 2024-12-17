@@ -1,11 +1,11 @@
 import { Message } from "discord.js";
-import { addBetsToPlayer, displayBet, getBet, getPrevBet, isPlayerInRoulette, parseBet, resetBetAndRefund } from "../../funcs/rula.utils.ts";
-import {  getBalance } from "../../funcs/casino.utils.ts";
+import { displayBet, parseBet, rouletteState } from "../../funcs/rula.utils.ts";
+import { getBalance } from "../../funcs/casino.utils.ts";
 import { Bet } from "../../types/casino.types.ts";
-import { ROULETTE_MIN } from "../../models/roulette.ts";
+import { ROULETTE_MIN } from "../../models/rouletteManager.ts";
 
 export function rbet(message: Message, args: string[], repeat?: boolean, double?: boolean) {
-    if (!isPlayerInRoulette(message.channel.id, message.author.id)) {
+    if (!rouletteState.isPlayerInRoulette(message.channel.id, message.author.id)) {
         return message.reply("No estas en la rula");
     }
 
@@ -13,12 +13,12 @@ export function rbet(message: Message, args: string[], repeat?: boolean, double?
 
     try {
         if (repeat) {
-            const lastBet = getPrevBet(message.channel.id, message.author.id);
-            resetBetAndRefund(message.channel.id, message.author.id, []);
+            const lastBet = rouletteState.getPrevBet(message.channel.id, message.author.id);
+            rouletteState.resetBetAndRefund(message.channel.id, message.author.id, []);
             parsedBet = lastBet;
         }
         else if (double) {
-            const lastBet = getBet(message.channel.id, message.author.id);
+            const lastBet = rouletteState.getBet(message.channel.id, message.author.id);
             parsedBet = lastBet;
         }
         
@@ -39,13 +39,13 @@ export function rbet(message: Message, args: string[], repeat?: boolean, double?
         return message.reply("No tenes plata suficiente");
     }
 
-    addBetsToPlayer(
+    rouletteState.addBetsToPlayer(
         message.channel.id,
         message.author.id,
         parsedBet
     )
 
-    const actualBet = getBet(message.channel.id, message.author.id)
+    const actualBet = rouletteState.getBet(message.channel.id, message.author.id)
 
     message.reply(`**Apuesta realizada**. Tu apuesta actual:\n${displayBet(actualBet)}`);
 }

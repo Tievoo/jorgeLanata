@@ -1,4 +1,4 @@
-import { RouletteSlot } from "../models/roulette.ts";
+import { RouletteSlot } from "../models/rouletteManager.ts";
 
 export interface Roulette {
     channelId: string;
@@ -16,4 +16,3 @@ export type Bet = {
     amount: number;
     slot: RouletteSlot;
 }
-

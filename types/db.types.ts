@@ -16,5 +16,18 @@ export interface Game {
 export interface Casino {
     users: Record<string, { balance: number }>;
     commissions: Record<string, number>;
-    roulettes: Record<string, Roulette>;
+    roulettes: Record<string, JsonRoulette>;
 }
+
+export interface JsonRoulette {
+    channelId: string;
+    players: Record<string, JsonRoulettePlayer>;
+}
+
+export interface JsonRoulettePlayer {
+    id: string;
+    name: string;
+    bets: { slot: string, amount: number }[];
+    prevBets: { slot: string, amount: number }[];
+}
+

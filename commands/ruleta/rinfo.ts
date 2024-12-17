@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
 import { Bet, Roulette } from "../../types/casino.types.ts";
-import { displayBet, getBet, getBetAmount, isPlayerInRoulette, rouletteState } from "../../funcs/rula.utils.ts";
+import { displayBet, getBetAmount, rouletteState } from "../../funcs/rula.utils.ts";
 
 export function rinfo(message: Message, _: string[]) {
-    const roulette = rouletteState[message.channel.id]
+    const roulette = rouletteState.getRoulette(message.channel.id)
     if (!roulette) {
         return message.reply("No hay una ruleta en este canal.");
     }
@@ -26,8 +26,8 @@ export function embed(roulette: Roulette, message: Message) {
 
     let bet : Bet[] | null = []
 
-    if (isPlayerInRoulette(message.channel.id, message.author.id)) {
-        bet = getBet(message.channel.id, message.author.id)
+    if (rouletteState.isPlayerInRoulette(message.channel.id, message.author.id)) {
+        bet = rouletteState.getBet(message.channel.id, message.author.id)
     } else bet = null
 
     const totalPlayers = Object.keys(roulette.players).length

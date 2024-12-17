@@ -1,7 +1,6 @@
 import { Message, TextChannel } from "discord.js";
 import { SlotGame } from "../../models/slot.ts";
 import { addBalance, getBalance } from "../../funcs/casino.utils.ts";
-import { isTievo } from "../../funcs/discord.utils.ts";
 
 export function sroll(message: Message, args: string[]) {
     // if (!isTievo(message.author.id)) {

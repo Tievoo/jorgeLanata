@@ -13,11 +13,11 @@ import {
     RouletteNumber,
     RouletteMiddle,
     ROULETTE_MIN
-} from "../models/roulette.ts";
-import { Bet, Roulette } from "../types/casino.types.ts";
-import { addBalance, hasNoBalance } from "./casino.utils.ts";
+} from "../models/rouletteManager.ts";
+import { RouletteState } from "../models/rouletteState.ts";
+import { Bet } from "../types/casino.types.ts";
 
-export const rouletteState: Record<string, Roulette> = casinoDB.get().roulettes;
+export const rouletteState: RouletteState = new RouletteState(casinoDB.get().roulettes);
 
 const validRouletteSlots = ["red", "black", "odd", "even", "low", "high", "first", "second", "third"];
 const validRouletteNumbers = Array.from({ length: 37 }, (_, i) => i).map(String);
@@ -69,59 +69,6 @@ export function getPerpendicularNumbers(num: number): number[] {
     return neighbors;
 }
 
-export function startRoulette(channelId: string) {
-    // rouletteState.set(channelId, {
-    //     channelId,
-    //     players: {},
-    // });
-    rouletteState[channelId] = {
-        channelId,
-        players: {},
-    }
-
-    casinoDB.setKey("roulettes", rouletteState);
-}
-
-export function addPlayerToRoulette(channelId: string, playerId: string, name: string) {
-    const roulette = rouletteState[channelId];
-    if (!roulette) return;
-
-    roulette.players[playerId] = {
-        id: playerId,
-        name: name,
-        bets: [],
-        prevBets: [],
-    }
-}
-
-export function addBetsToPlayer(channelId: string, playerId: string, bets: Bet[]) {
-    const roulette = rouletteState[channelId];
-    if (!roulette) return;
-
-    const prevAmount = roulette.players[playerId].bets.reduce((acc, bet) => acc + bet.amount, 0);
-
-    for (const bet of bets) {
-        const existingBet = roulette.players[playerId].bets.findIndex(b => b.slot.toString() === bet.slot.toString());
-        if (existingBet !== -1) {
-            const actualAmount = roulette.players[playerId].bets[existingBet].amount
-            roulette.players[playerId].bets[existingBet].amount = bet.slot.roundToMaxBet(bet.amount + actualAmount);
-        } else {
-            roulette.players[playerId].bets.push(bet);
-        }
-    }
-
-    const newAmount = roulette.players[playerId].bets.reduce((acc, bet) => acc + bet.amount, 0);
-
-    addBalance(playerId, prevAmount - newAmount);
-}
-
-export function isPlayerInRoulette(channelId: string, playerId: string) {
-    const roulette = rouletteState[channelId];
-    if (!roulette) return false;
-
-    return playerId in roulette.players;
-}
-
 export function convertToRouletteSlot(slot: string): RouletteSlot {
     if (validRouletteSlots.includes(slot)) {
         return new rouletteSlotMap[slot]();
@@ -141,16 +88,6 @@ export function convertToRouletteSlot(slot: string): RouletteSlot {
     }
 
     throw new Error("Invalid slot");
-}
-
-export function hasRoulette(channelId: string) {
-    return !!rouletteState[channelId];
-}
-
-export function usersWithoutBet(channelId: string) {
-    const roulette = rouletteState[channelId];
-
-    return Object.values(roulette!.players).filter(player => player.bets.length === 0);
 }
 
 export function parseBet(bets: string[], allIn: number): Bet[] {
@@ -184,59 +121,6 @@ export function parseBet(bets: string[], allIn: number): Bet[] {
     }
 
     return parsed;
-}
-
-export function getBet(channelId: string, playerId: string) {
-    const roulette = rouletteState[channelId];
-    if (!roulette) return [];
-
-    return roulette.players[playerId].bets;
-}
-
-export function getPrevBet(channelId: string, playerId: string) {
-    const roulette = rouletteState[channelId];
-    if (!roulette) return [];
-
-    return roulette.players[playerId].prevBets;
-}
-
-export function resetBet(channelId: string, playerId: string) {
-    const roulette = rouletteState[channelId];
-    if (!roulette) return;
-
-    roulette.players[playerId].bets = [];
-}
-
-export function resetBetAndRefund(channelId: string, playerId: string, args: string[] = []) {
-    const roulette = rouletteState[channelId];
-    if (!roulette) return;
-
-    const player = roulette.players[playerId];
-    const actualValue = player.bets.reduce((acc, bet) => acc + bet.amount, 0);
-
-    const newBets = args.length ? player.bets.filter(bet => !args.some(arg => bet.slot.isOfType(arg))) : []
-
-    const newValue = newBets.reduce((acc, bet) => acc + bet.amount, 0);
-
-    addBalance(playerId, actualValue - newValue);
-
-    player.bets = newBets;
-}
-
-export function resetBets(channelId: string) {
-    const roulette = rouletteState[channelId];
-    if (!roulette) return;
-
-    for (const userId in roulette.players) {
-        const player = roulette.players[userId];
-        if (hasNoBalance(userId)) {
-            delete roulette.players[userId];
-            continue;
-        };
-        player.prevBets = player.bets;
-        player.bets = [];
-
-    }
 }
 
 export function getBetAmount(bet: Bet[]) {

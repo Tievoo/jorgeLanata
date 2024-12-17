@@ -1,8 +1,7 @@
-import { RouletteNumberEmojis } from "../funcs/rula.utils.ts";
+import { convertToRouletteSlot, RouletteNumberEmojis } from "../funcs/rula.utils.ts";
 import { Bet } from "../types/casino.types.ts";
 
 export const ROULETTE_MIN = 20;
-
 
 export abstract class RouletteSlot {
     abstract readonly name : string;
@@ -23,10 +22,19 @@ export abstract class RouletteSlot {
     isOfType(slot: string): boolean {
         return slot === this.id;
     }
+
+    static fromJsonString(slot: string): RouletteSlot {
+        return convertToRouletteSlot(slot);
+    }
+
+    toJsonString(): string {
+        return this.id || "";
+    }
 }
 
 export class RouletteNumber extends RouletteSlot {
     override readonly name = "Numero";
+    override readonly id = "num";
     override readonly payout = 36;
     override readonly maxBet: number = ROULETTE_MIN*10;
     number: number;
@@ -46,6 +54,10 @@ export class RouletteNumber extends RouletteSlot {
     override isOfType(slot: string): boolean {
         return slot === this.number.toString();
     }
+
+    override toJsonString(): string {
+        return this.number.toString();
+    }
 }
 
 export class RouletteMiddle extends RouletteSlot {
@@ -53,6 +65,7 @@ export class RouletteMiddle extends RouletteSlot {
     secondNumber: number;
     override readonly payout = 18;
     override readonly name = "Mitad";
+    override readonly id = "middle";
     constructor(firstNumber: number, secondNumber: number) {
         super();
         this.firstNumber = firstNumber;
@@ -69,6 +82,10 @@ export class RouletteMiddle extends RouletteSlot {
 
     override isOfType(slot: string): boolean {
         return slot === `${this.firstNumber}.${this.secondNumber}`;
+    }
+
+    override toJsonString(): string {
+        return `${this.firstNumber}.${this.secondNumber}`;
     }
 }
 
@@ -225,3 +242,4 @@ export class RouletteManager {
         }, 0);
     }
 }
+
