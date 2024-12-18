@@ -3,9 +3,7 @@ import { rouletteState } from "../../funcs/rula.utils.ts";
 import { hasNoBalance } from "../../funcs/casino.utils.ts";
 
 export async function rjoin(message: Message, _: string[]) {
-    const roulette = rouletteState.getRoulette(message.channel.id);
-
-    if (!roulette) {
+    if (!rouletteState.hasRoulette(message.channel.id)) {
         return message.reply("No hay rula en este canal");
     }
 

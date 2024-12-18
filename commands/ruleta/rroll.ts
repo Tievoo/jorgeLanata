@@ -1,8 +1,9 @@
 import { Message, TextChannel } from "discord.js";
-import { RouletteNumberEmojis, rouletteState } from "../../funcs/rula.utils.ts";
+import { rouletteState } from "../../funcs/rula.utils.ts";
 import { RouletteManager } from "../../models/rouletteManager.ts";
 import { addBalance } from "../../funcs/casino.utils.ts";
 import { RoulettePlayer } from "../../types/casino.types.ts";
+import { RouletteNumberEmojis } from "../../types/consts.ts";
 
 let nxt : number | null = null;
 export function setNxt(n: number | null){
@@ -10,7 +11,6 @@ export function setNxt(n: number | null){
 }
 
 export function rroll(message: Message, _: string[]){
-    // Esta funcion tira la rula
     if (!rouletteState.hasRoulette(message.channel.id)) {
         return message.reply("No hay rula en este canal");
     }

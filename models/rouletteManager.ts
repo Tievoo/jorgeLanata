@@ -1,7 +1,5 @@
-import { convertToRouletteSlot, RouletteNumberEmojis } from "../funcs/rula.utils.ts";
 import { Bet } from "../types/casino.types.ts";
-
-export const ROULETTE_MIN = 20;
+import { RouletteNumberEmojis, ROULETTE_MIN } from "../types/consts.ts";
 
 export abstract class RouletteSlot {
     abstract readonly name : string;
@@ -21,10 +19,6 @@ export abstract class RouletteSlot {
 
     isOfType(slot: string): boolean {
         return slot === this.id;
-    }
-
-    static fromJsonString(slot: string): RouletteSlot {
-        return convertToRouletteSlot(slot);
     }
 
     toJsonString(): string {

@@ -1,7 +1,7 @@
 import { Message, MessageReaction, TextChannel, User } from "discord.js";
 import { rouletteState } from "../../funcs/rula.utils.ts";
 import { hasNoBalance } from "../../funcs/casino.utils.ts";
-import { ROULETTE_MIN } from "../../models/rouletteManager.ts";
+import { ROULETTE_MIN } from "../../types/consts.ts";
 
 export async function rula(message: Message, _: string[]) {
     if (rouletteState.hasRoulette(message.channel.id)) {

@@ -2,7 +2,7 @@ import { casinoDB } from "../database/manager.ts";
 import { addBalance, hasNoBalance } from "../funcs/casino.utils.ts";
 import { Bet, Roulette } from "../types/casino.types.ts";
 import { JsonRoulette } from "../types/db.types.ts";
-import { RouletteSlot } from "./rouletteManager.ts";
+import { BetConverter } from "./BetConverter.ts";
 
 export class RouletteState {
     private roulettes: Record<string, Roulette> = {};
@@ -162,8 +162,8 @@ export class RouletteState {
                 this.roulettes[channelId].players[playerId] = {
                     id: player.id,
                     name: player.name,
-                    bets: player.bets.map(bet => ({amount: bet.amount, slot: RouletteSlot.fromJsonString(bet.slot)})),
-                    prevBets: player.prevBets.map(bet => ({amount: bet.amount, slot: RouletteSlot.fromJsonString(bet.slot)})),
+                    bets: BetConverter.convertJsonBets(player.bets),
+                    prevBets: BetConverter.convertJsonBets(player.prevBets),
                 }
             }
         }
@@ -182,8 +182,8 @@ export class RouletteState {
                 json[channelId].players[playerId] = {
                     id: player.id,
                     name: player.name,
-                    bets: player.bets.map(bet => ({amount: bet.amount, slot: bet.slot.toString()})),
-                    prevBets: player.prevBets.map(bet => ({amount: bet.amount, slot: bet.slot.toString()})),
+                    bets: player.bets.map(bet => ({amount: bet.amount, slot: bet.slot.toJsonString()})),
+                    prevBets: player.prevBets.map(bet => ({amount: bet.amount, slot: bet.slot.toJsonString()})),
                 }
             }
         }

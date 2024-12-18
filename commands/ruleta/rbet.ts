@@ -1,8 +1,9 @@
 import { Message } from "discord.js";
-import { displayBet, parseBet, rouletteState } from "../../funcs/rula.utils.ts";
+import { displayBet, rouletteState } from "../../funcs/rula.utils.ts";
 import { getBalance } from "../../funcs/casino.utils.ts";
 import { Bet } from "../../types/casino.types.ts";
-import { ROULETTE_MIN } from "../../models/rouletteManager.ts";
+import { BetConverter } from "../../models/BetConverter.ts";
+import { ROULETTE_MIN } from "../../types/consts.ts";
 
 export function rbet(message: Message, args: string[], repeat?: boolean, double?: boolean) {
     if (!rouletteState.isPlayerInRoulette(message.channel.id, message.author.id)) {
@@ -24,7 +25,7 @@ export function rbet(message: Message, args: string[], repeat?: boolean, double?
         
         else {
             const all : number = getBalance(message.author.id);
-            parsedBet = parseBet(args, all);
+            parsedBet = BetConverter.parseBet(args, all);
         }
     } catch (error) {
         if ((error as Error).message === "Low bet") {
