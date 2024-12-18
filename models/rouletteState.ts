@@ -3,6 +3,7 @@ import { addBalance, hasNoBalance } from "../funcs/casino.utils.ts";
 import { Bet, Roulette } from "../types/casino.types.ts";
 import { JsonRoulette } from "../types/db.types.ts";
 import { BetConverter } from "./BetConverter.ts";
+import { Queue } from "./Queue.ts";
 
 export class RouletteState {
     private roulettes: Record<string, Roulette> = {};
@@ -15,6 +16,7 @@ export class RouletteState {
         this.roulettes[channelId] = {
             channelId,
             players: {},
+            lastResults: new Queue()
         }
         this.sync();
     }
@@ -146,6 +148,14 @@ export class RouletteState {
         this.sync();
     }
 
+    addResult(channelId: string, result: number) {
+        const roulette = this.getRoulette(channelId);
+        if (!roulette) return;
+    
+        roulette.lastResults.enqueue(result);
+        this.sync();
+    }
+
     sync() {
         casinoDB.setKey("roulettes", this.toJson());
     }
@@ -155,6 +165,7 @@ export class RouletteState {
             this.roulettes[channelId] = {
                 channelId,
                 players: {},
+                lastResults: new Queue(json[channelId].lastResults),
             }
 
             for (const playerId in json[channelId].players) {
@@ -175,6 +186,7 @@ export class RouletteState {
             json[channelId] = {
                 channelId,
                 players: {},
+                lastResults: this.roulettes[channelId].lastResults.toArray(),
             }
 
             for (const playerId in this.roulettes[channelId].players) {

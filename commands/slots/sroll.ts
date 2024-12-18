@@ -1,5 +1,5 @@
 import { Message, TextChannel } from "discord.js";
-import { SlotGame } from "../../models/slot.ts";
+import { SlotGame } from "../../models/SlotGame.ts";
 import { addBalance, getBalance } from "../../funcs/casino.utils.ts";
 
 export function sroll(message: Message, args: string[]) {

@@ -1,5 +1,4 @@
 import { HexColorString } from "discord.js";
-import { Roulette } from "./casino.types.ts";
 
 export interface Leaderboard {
     [key: string]: {
@@ -22,12 +21,18 @@ export interface Casino {
 export interface JsonRoulette {
     channelId: string;
     players: Record<string, JsonRoulettePlayer>;
+    lastResults: number[];
+}
+
+export interface JsonBet {
+    amount: number;
+    slot: string;
 }
 
 export interface JsonRoulettePlayer {
     id: string;
     name: string;
-    bets: { slot: string, amount: number }[];
-    prevBets: { slot: string, amount: number }[];
+    bets: JsonBet[];
+    prevBets: JsonBet[];
 }
 

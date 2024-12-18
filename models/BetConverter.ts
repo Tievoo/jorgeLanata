@@ -1,5 +1,6 @@
 import { Bet } from "../types/casino.types.ts";
 import { ROULETTE_MIN } from "../types/consts.ts";
+import { JsonBet } from "../types/db.types.ts";
 import { 
     RouletteBlack,
     RouletteEven,
@@ -12,7 +13,7 @@ import {
     RouletteSecondDozen,
     RouletteSlot,
     RouletteThirdDozen
-} from "./rouletteManager.ts";
+} from "./RouletteManager.ts";
 
 export class BetConverter {
     static validRouletteSlots = ["red", "black", "odd", "even", "low", "high", "first", "second", "third"];
@@ -84,7 +85,7 @@ export class BetConverter {
         return neighbors;
     }
 
-    static convertJsonBets(bets: { amount: number, slot: string }[]) {
+    static convertJsonBets(bets: JsonBet[]) {
         return bets.map(bet => {
             return {
                 amount: bet.amount,

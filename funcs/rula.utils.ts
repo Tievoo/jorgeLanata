@@ -1,5 +1,5 @@
 import { casinoDB } from "../database/manager.ts";
-import { RouletteState } from "../models/rouletteState.ts";
+import { RouletteState } from "../models/RouletteState.ts";
 import { Bet } from "../types/casino.types.ts";
 
 export const rouletteState: RouletteState = new RouletteState(casinoDB.get().roulettes)

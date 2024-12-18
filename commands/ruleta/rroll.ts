@@ -1,6 +1,6 @@
 import { Message, TextChannel } from "discord.js";
 import { rouletteState } from "../../funcs/rula.utils.ts";
-import { RouletteManager } from "../../models/rouletteManager.ts";
+import { RouletteManager } from "../../models/RouletteManager.ts";
 import { addBalance } from "../../funcs/casino.utils.ts";
 import { RoulettePlayer } from "../../types/casino.types.ts";
 import { RouletteNumberEmojis } from "../../types/consts.ts";
@@ -26,6 +26,8 @@ export function rroll(message: Message, _: string[]){
 
     const result = nxt || Math.floor(Math.random() * 37);
     nxt = null;
+
+    rouletteState.addResult(message.channel.id, result);
 
     const roulette = rouletteState.getRoulette(message.channel.id);
 

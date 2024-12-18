@@ -1,8 +1,10 @@
-import { RouletteSlot } from "../models/rouletteManager.ts";
+import { Queue } from "../models/Queue.ts";
+import { RouletteSlot } from "../models/RouletteManager.ts";
 
 export interface Roulette {
     channelId: string;
     players: Record<string, RoulettePlayer>;
+    lastResults: Queue<number>;
 }
 
 export interface RoulettePlayer {

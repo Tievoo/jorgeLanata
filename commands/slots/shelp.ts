@@ -1,5 +1,5 @@
 import { Message, TextChannel } from "discord.js";
-import { SlotGame } from "../../models/slot.ts";
+import { SlotGame } from "../../models/SlotGame.ts";
 
 export function shelp(message: Message, _: string[]) {
     (message.channel as TextChannel).send({ embeds: [embed()] });

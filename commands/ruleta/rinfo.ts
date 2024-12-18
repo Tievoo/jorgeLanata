@@ -38,7 +38,7 @@ export function embed(roulette: Roulette, message: Message) {
         description: `Ruleta activa en este canal. ${totalPlayers} jugadores.\n\n`+
         (playersThatBet.length ? `Jugadores con apuestas:\n`+playersThatBet.map(player => `<@${player.id}>: ${player.amount}`).join(", ")+"\n\n" : "")+
         (playersThatDidntBet.length ? `Jugadores sin apuestas:\n${playersThatDidntBet.map(player => `<@${player}>`).join(", ")}\n` : "")+
-        `Ultimos resultados:\n${Array(15).fill(RouletteNumberEmojis[0]).join(" ")}\n\n`+
+        `Ultimos resultados:\n${roulette.lastResults.peekAmount(15).map(n=> RouletteNumberEmojis[n]).join(" ")}\n\n`+
         `Tu apuesta:\n`+
         `${bet ? (bet.length ? displayBet(bet) : "No tenes apuesta") : "No estas en la ruleta"}` +
         ((totalPlayers > 0 && totalPlayers === playersThatBet.length) ? "\n**Todos los jugadores apostaron**. Usa **$rroll** para girar la ruleta!" : "")

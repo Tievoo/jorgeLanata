@@ -3,7 +3,7 @@ import { replaceCasinoWithMock } from "../jsonmanager.mock.ts";
 import { rouletteState } from "../../funcs/rula.utils.ts";
 import { assertEquals } from "jsr:@std/assert@^1.0.9/equals";
 import { addBalance, getBalance } from "../../funcs/casino.utils.ts";
-import { RouletteRed } from "../../models/rouletteManager.ts";
+import { RouletteRed } from "../../models/RouletteManager.ts";
 import { onePlayerBalance2000 } from "./utils.ts";
 import { BetConverter } from "../../models/BetConverter.ts";
 

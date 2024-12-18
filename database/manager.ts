@@ -1,4 +1,4 @@
-import { JsonManager } from "../models/jsonmanager.ts";
+import { JsonManager } from "../models/JsonManager.ts";
 import { Casino, Game, Leaderboard } from "../types/db.types.ts";
 
 export const casinoDB = new JsonManager<Casino>("casino.json");
