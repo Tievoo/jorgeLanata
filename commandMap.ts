@@ -22,6 +22,7 @@ import { sroll } from "./commands/slots/sroll.ts";
 import { commsync } from "./commands/commsync.ts";
 import { rkick } from "./commands/ruleta/rkick.ts";
 import { shelp } from "./commands/slots/shelp.ts";
+import { rstats } from "./commands/ruleta/rstats.ts";
 
 type Command = (message: Message, args: string[]) => void;
 
@@ -68,6 +69,7 @@ const commandMap : Record<string, Command> = {
     "rhelp": rhelp,
     "rinfo": rinfo,
     "rkick": rkick,
+    "rstats": rstats,
 
     "sroll": sroll,
     "shelp": shelp,

@@ -12,11 +12,13 @@ import {
     RouletteRed,
     RouletteSecondDozen,
     RouletteSlot,
-    RouletteThirdDozen
+    RouletteThirdDozen,
+    RouletteFirstColumn,
+    RouletteSecondColumn,
+    RouletteThirdColumn
 } from "./RouletteManager.ts";
 
 export class BetConverter {
-    static validRouletteSlots = ["red", "black", "odd", "even", "low", "high", "first", "second", "third"];
     static validRouletteNumbers = Array.from({ length: 37 }, (_, i) => i).map(String);
     static rouletteSlotMap: Record<string, new () => RouletteSlot> = {
         red: RouletteRed,
@@ -28,10 +30,13 @@ export class BetConverter {
         first: RouletteFirstDozen,
         second: RouletteSecondDozen,
         third: RouletteThirdDozen,
+        firstcol: RouletteFirstColumn,
+        secondcol: RouletteSecondColumn,
+        thirdcol: RouletteThirdColumn
     };
 
     static convertToRouletteSlot(slot: string): RouletteSlot {
-        if (this.validRouletteSlots.includes(slot)) {
+        if (slot in this.rouletteSlotMap) {
             return new this.rouletteSlotMap[slot]();
         }
 

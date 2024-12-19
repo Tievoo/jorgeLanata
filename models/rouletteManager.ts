@@ -149,7 +149,7 @@ export class RouletteFirstDozen extends RouletteSlot {
     override readonly payout = 3;
 
     shouldPay(number: number): boolean {
-        return RouletteManager.isFirstDozen(number);
+        return RouletteManager.isDozen(1, number);
     }
 }
 
@@ -159,7 +159,7 @@ export class RouletteSecondDozen extends RouletteSlot {
     override readonly payout = 3;
 
     shouldPay(number: number): boolean {
-        return RouletteManager.isSecondDozen(number);
+        return RouletteManager.isDozen(2, number);
     }
 }
 
@@ -170,7 +170,37 @@ export class RouletteThirdDozen extends RouletteSlot {
     override readonly payout = 3;
 
     shouldPay(number: number): boolean {
-        return RouletteManager.isThirdDozen(number);
+        return RouletteManager.isDozen(3, number);
+    }
+}
+
+export class RouletteFirstColumn extends RouletteSlot {
+    override readonly name = "Primera columna";
+    override readonly id = "firstcol";
+    override readonly payout = 3;
+
+    shouldPay(number: number): boolean {
+        return RouletteManager.isColumn(1, number);
+    }
+}
+
+export class RouletteSecondColumn extends RouletteSlot {
+    override readonly name = "Segunda columna";
+    override readonly id = "secondcol";
+    override readonly payout = 3;
+
+    shouldPay(number: number): boolean {
+        return RouletteManager.isColumn(2, number);
+    }
+}
+
+export class RouletteThirdColumn extends RouletteSlot {
+    override readonly name = "Tercera columna";
+    override readonly id = "thirdcol";
+    override readonly payout = 3;
+
+    shouldPay(number: number): boolean {
+        return RouletteManager.isColumn(3, number);
     }
 }
 
@@ -211,16 +241,12 @@ export class RouletteManager {
         return number >= 0 && number <= 36;
     }
 
-    static isFirstDozen(number: number): boolean {
-        return number >= 1 && number <= 12;
+    static isDozen(dozen: number, number: number): boolean {
+        return number >= (dozen - 1) * 12 + 1 && number <= dozen * 12;
     }
 
-    static isSecondDozen(number: number): boolean {
-        return number >= 13 && number <= 24;
-    }
-
-    static isThirdDozen(number: number): boolean {
-        return number >= 25 && number <= 36;
+    static isColumn(column: number, number: number): boolean {
+        return number % 3 === column;
     }
 
     static isSlot(slot: RouletteSlot, number: number): boolean {
