@@ -13,7 +13,7 @@ module.exports = {
       repo: 'git@github.com:Tievoo/jorgeLanata.git',
       path: '/app',
       'pre-deploy-local': '',
-      'post-deploy': 'yarn && pm2 startOrRestart ecosystem.config.cjs',
+      'post-deploy': 'deno install && pm2 startOrRestart ecosystem.config.cjs',
     }
   }
 };
