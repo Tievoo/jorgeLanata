@@ -200,7 +200,7 @@ export class RouletteThirdColumn extends RouletteSlot {
     override readonly payout = 3;
 
     shouldPay(number: number): boolean {
-        return RouletteManager.isColumn(3, number);
+        return RouletteManager.isColumn(0, number);
     }
 }
 
