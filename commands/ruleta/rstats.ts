@@ -35,7 +35,8 @@ export async function rstats(message: Message, _: string[]) {
     (message.channel as TextChannel).send({
         files: [attachment],
         embeds: [{
-            title:"Algo",
+            title:"Estadisticas",
+            description: `Estadisticas de los numeros de los ultimos **${top100.length}** resultados`,
             image: {
                 url: `attachment://${attachment.name}`
             }

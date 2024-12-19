@@ -58,3 +58,7 @@ export function hasNoBalance(userId: string) {
 export function getCommissions() {
     return casinoDB.get().commissions;
 }
+
+export async function wait(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

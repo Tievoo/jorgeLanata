@@ -1,5 +1,5 @@
 import { Message, TextChannel } from "discord.js";
-import { addBalance } from "../funcs/casino.utils.ts";
+import { addBalance, wait } from "../funcs/casino.utils.ts";
 
 type Slot = { icon: string; weight: number; three: number; two: number; };
 
@@ -15,7 +15,7 @@ export class SlotGame {
     ];
 
     static slotRollingEmojis = ["<a:slotsspin1:1319139855069876224>", "<a:slotsspin2:1319139873260830730>", "<a:slotsspin3:1319139885210406983>"]
-
+    private static readonly TIME_BETWEEN_ROLLS = 500;
     private static readonly TOTAL_WEIGHT = 100;
 
     static getRandomSlot(): Slot {
@@ -54,13 +54,13 @@ export class SlotGame {
         const result = this.getSlotResult();
         const payout = this.calculatePayout(result, bet);
         const slotMessage = await (message.channel as TextChannel).send(`${this.slotRollingEmojis[0]}${this.slotRollingEmojis[1]}${this.slotRollingEmojis[2]}`);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await wait(this.TIME_BETWEEN_ROLLS);
         await slotMessage.edit(`${result[0].icon}${this.slotRollingEmojis[1]}${this.slotRollingEmojis[2]}`);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await wait(this.TIME_BETWEEN_ROLLS);
         await slotMessage.edit(`${result[0].icon}${result[1].icon}${this.slotRollingEmojis[2]}`);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await wait(this.TIME_BETWEEN_ROLLS);
         await slotMessage.edit(`${result[0].icon}${result[1].icon}${result[2].icon}`);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await wait(200);
         await slotMessage.edit(`${result[0].icon}${result[1].icon}${result[2].icon}\n${payout === 0 ? "Perdiste todo" : `Ganaste ${payout}!`}`);
         addBalance(message.author.id, payout);
 
