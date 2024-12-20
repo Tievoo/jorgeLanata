@@ -15,24 +15,25 @@ import {
     RouletteThirdDozen,
     RouletteFirstColumn,
     RouletteSecondColumn,
-    RouletteThirdColumn
+    RouletteThirdColumn,
+    RouletteOdd
 } from "./RouletteManager.ts";
 
 export class BetConverter {
     static validRouletteNumbers = Array.from({ length: 37 }, (_, i) => i).map(String);
     static rouletteSlotMap: Record<string, new () => RouletteSlot> = {
-        red: RouletteRed,
-        black: RouletteBlack,
-        odd: RouletteRed,
-        even: RouletteEven,
-        low: RouletteLow,
-        high: RouletteHigh,
-        first: RouletteFirstDozen,
-        second: RouletteSecondDozen,
-        third: RouletteThirdDozen,
-        firstcol: RouletteFirstColumn,
+        red:       RouletteRed,
+        black:     RouletteBlack,
+        odd:       RouletteOdd,
+        even:      RouletteEven,
+        low:       RouletteLow,
+        high:      RouletteHigh,
+        first:     RouletteFirstDozen,
+        second:    RouletteSecondDozen,
+        third:     RouletteThirdDozen,
+        firstcol:  RouletteFirstColumn,
         secondcol: RouletteSecondColumn,
-        thirdcol: RouletteThirdColumn
+        thirdcol:  RouletteThirdColumn
     };
 
     static convertToRouletteSlot(slot: string): RouletteSlot {

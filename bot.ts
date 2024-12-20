@@ -55,6 +55,7 @@ try {
         }
 
         if (interaction.commandName === "despertar") {
+            
             const [member, channel] = [
                 interaction.options.getMember("quien"),
                 interaction.options.getChannel("vc"),
