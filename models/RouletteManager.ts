@@ -48,8 +48,10 @@ export class RouletteNumber extends RouletteSlot {
             return { x: 151, y: 206 }
         }
 
+        const yV = [0,2,1]
+
         const x = BetDisplay.BASE_NUMBER_POS.x + Math.floor((this.number - 1) / 3) * BetDisplay.X_NUMBER_JUMP;
-        const y = BetDisplay.BASE_NUMBER_POS.y + this.number % 3 * BetDisplay.Y_NUMBER_JUMP;
+        const y = BetDisplay.BASE_NUMBER_POS.y + yV[this.number % 3] * BetDisplay.Y_NUMBER_JUMP;
         return { x, y };
     }
 
