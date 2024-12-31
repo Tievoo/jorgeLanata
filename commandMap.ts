@@ -23,6 +23,8 @@ import { commsync } from "./commands/commsync.ts";
 import { rkick } from "./commands/ruleta/rkick.ts";
 import { shelp } from "./commands/slots/shelp.ts";
 import { rstats } from "./commands/ruleta/rstats.ts";
+import { BetDisplay } from "./models/BetDisplay.ts";
+import { BetConverter } from "./models/BetConverter.ts";
 
 type Command = (message: Message, args: string[]) => void;
 
@@ -78,8 +80,9 @@ const commandMap : Record<string, Command> = {
     "rnext": rnext
 }
 
-function test(message: Message, _: string[]) {
-    message.reply("<:0_:1315196027128643584>");
+async function test(message: Message, _: string[]) {
+    const attachment = await BetDisplay.fromBet(BetConverter.parseBet(["1:50", "2:100", "3:50", "red:1000", "firstcol:1000", "first:500", "0:100"], 100));
+    (message.channel as any).send({files: [attachment]});
 }
 
 export function executeCommand(message: Message) {

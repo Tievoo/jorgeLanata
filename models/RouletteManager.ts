@@ -1,5 +1,6 @@
 import { Bet } from "../types/casino.types.ts";
 import { RouletteNumberEmojis, ROULETTE_MIN } from "../types/consts.ts";
+import { BetDisplay, Coord } from "./BetDisplay.ts";
 
 export abstract class RouletteSlot {
     abstract readonly name : string;
@@ -8,6 +9,7 @@ export abstract class RouletteSlot {
     readonly id: string | undefined;
     constructor() {}
     abstract shouldPay(number: number): boolean
+    abstract displayCoords(): Coord
 
     toString() {
         return this.name;
@@ -41,6 +43,16 @@ export class RouletteNumber extends RouletteSlot {
         return this.number === number;
     }
 
+    override displayCoords(): Coord {
+        if (this.number === 0) {
+            return { x: 151, y: 206 }
+        }
+
+        const x = BetDisplay.BASE_NUMBER_POS.x + Math.floor((this.number - 1) / 3) * BetDisplay.X_NUMBER_JUMP;
+        const y = BetDisplay.BASE_NUMBER_POS.y + this.number % 3 * BetDisplay.Y_NUMBER_JUMP;
+        return { x, y };
+    }
+
     override toString() {
         return RouletteNumberEmojis[this.number];
     }
@@ -52,6 +64,8 @@ export class RouletteNumber extends RouletteSlot {
     override toJsonString(): string {
         return this.number.toString();
     }
+
+
 }
 
 export class RouletteMiddle extends RouletteSlot {
@@ -68,6 +82,12 @@ export class RouletteMiddle extends RouletteSlot {
 
     shouldPay(number: number): boolean {
         return this.firstNumber === number || this.secondNumber === number;
+    }
+
+    override displayCoords(): Coord {
+        const first = new RouletteNumber(this.firstNumber).displayCoords();
+        const second = new RouletteNumber(this.secondNumber).displayCoords();
+        return { x: (first.x + second.x) / 2, y: (first.y + second.y ) / 2 };
     }
 
     override toString() {
@@ -91,6 +111,10 @@ export class RouletteRed extends RouletteSlot {
     shouldPay(number: number): boolean {
         return RouletteManager.isRed(number);
     }
+
+    displayCoords(): Coord {
+        return { x: 609, y: 463 }
+    }
 }
 
 export class RouletteBlack extends RouletteSlot {
@@ -100,6 +124,9 @@ export class RouletteBlack extends RouletteSlot {
 
     shouldPay(number: number): boolean {
         return RouletteManager.isBlack(number);
+    }
+    displayCoords(): Coord {
+        return { x: 772, y: 463 }
     }
 }
 
@@ -111,6 +138,10 @@ export class RouletteOdd extends RouletteSlot {
     shouldPay(number: number): boolean {
         return RouletteManager.isOdd(number);
     }
+
+    displayCoords(): Coord {
+        return { x: 935, y: 463 }
+    }
 }
 
 export class RouletteEven extends RouletteSlot {
@@ -120,6 +151,10 @@ export class RouletteEven extends RouletteSlot {
 
     shouldPay(number: number): boolean {
         return RouletteManager.isEven(number);
+    }
+
+    displayCoords(): Coord {
+        return { x: 446, y: 463 }
     }
 }
 
@@ -131,6 +166,10 @@ export class RouletteLow extends RouletteSlot {
     shouldPay(number: number): boolean {
         return RouletteManager.isLow(number);
     }
+
+    displayCoords(): Coord {
+        return { x: 283, y: 463 }
+    }
 }
 
 export class RouletteHigh extends RouletteSlot {
@@ -140,6 +179,10 @@ export class RouletteHigh extends RouletteSlot {
 
     shouldPay(number: number): boolean {
         return RouletteManager.isHigh(number);
+    }
+
+    displayCoords(): Coord {
+        return { x: 1098, y: 463 }
     }
 }
 
@@ -151,6 +194,10 @@ export class RouletteFirstDozen extends RouletteSlot {
     shouldPay(number: number): boolean {
         return RouletteManager.isDozen(1, number);
     }
+
+    displayCoords(): Coord {
+        return { x: 364, y: 376 }
+    }
 }
 
 export class RouletteSecondDozen extends RouletteSlot {
@@ -160,6 +207,10 @@ export class RouletteSecondDozen extends RouletteSlot {
 
     shouldPay(number: number): boolean {
         return RouletteManager.isDozen(2, number);
+    }
+
+    displayCoords(): Coord {
+        return { x: 690, y: 376 }
     }
 }
 
@@ -172,6 +223,10 @@ export class RouletteThirdDozen extends RouletteSlot {
     shouldPay(number: number): boolean {
         return RouletteManager.isDozen(3, number);
     }
+
+    displayCoords(): Coord {
+        return { x: 1016, y: 376 }
+    }
 }
 
 export class RouletteFirstColumn extends RouletteSlot {
@@ -181,6 +236,10 @@ export class RouletteFirstColumn extends RouletteSlot {
 
     shouldPay(number: number): boolean {
         return RouletteManager.isColumn(1, number);
+    }
+
+    displayCoords(): Coord {
+        return { x: 1241, y: 131 }
     }
 }
 
@@ -192,6 +251,10 @@ export class RouletteSecondColumn extends RouletteSlot {
     shouldPay(number: number): boolean {
         return RouletteManager.isColumn(2, number);
     }
+
+    displayCoords(): Coord {
+        return { x: 1241, y: 212 }
+    }
 }
 
 export class RouletteThirdColumn extends RouletteSlot {
@@ -201,6 +264,10 @@ export class RouletteThirdColumn extends RouletteSlot {
 
     shouldPay(number: number): boolean {
         return RouletteManager.isColumn(0, number);
+    }
+
+    displayCoords(): Coord {
+        return { x: 1241, y: 293 }
     }
 }
 
