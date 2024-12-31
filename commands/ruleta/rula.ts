@@ -53,7 +53,7 @@ function embed(help: boolean = false) {
             "Los valores son **red**, **black**, **even**, **odd**, **first**, **second**, **third** (primera, segunda y tercera docena), **firstcol**, **secondcol**, **thirdcol**" +
             " (columnas, ver donde dice **2 to 1** en la foto) " +
             " **low** (1-18), **high** (19-36), y <0-36> para numero.\nPara apostar en el medio entre dos numeros, se usa **<numero>.<numero>**\n" +
-            `La apuesta minima es de ${ROULETTE_MIN}, y el maximo es ${ROULETTE_MIN*10} para los numeros y ${ROULETTE_MIN*50} para las otras apuestas.\n`+
+            `La apuesta minima es de ${ROULETTE_MIN}, y el maximo es ${ROULETTE_MIN*50} para los numeros y ${ROULETTE_MIN*500} para las otras apuestas.\n`+
             "**$rroll** - Gira la ruleta y muestra el resultado\n" +
             "**$rreset** - Cancela tu apuesta y devuelve el valor a tu balance\n" +
             "**$rbetd** - Duplica tu apuesta actual\n" +

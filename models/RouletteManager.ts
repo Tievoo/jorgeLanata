@@ -5,7 +5,7 @@ import { BetDisplay, Coord } from "./BetDisplay.ts";
 export abstract class RouletteSlot {
     abstract readonly name : string;
     abstract readonly payout : number;
-    readonly maxBet = ROULETTE_MIN*50;
+    readonly maxBet = ROULETTE_MIN*500;
     readonly id: string | undefined;
     constructor() {}
     abstract shouldPay(number: number): boolean
@@ -32,7 +32,7 @@ export class RouletteNumber extends RouletteSlot {
     override readonly name = "Numero";
     override readonly id = "num";
     override readonly payout = 36;
-    override readonly maxBet: number = ROULETTE_MIN*10;
+    override readonly maxBet: number = ROULETTE_MIN*50;
     number: number;
     constructor(number: number) {
         super();
@@ -87,6 +87,13 @@ export class RouletteMiddle extends RouletteSlot {
     }
 
     override displayCoords(): Coord {
+        if (this.firstNumber === 0 || this.secondNumber === 0) {
+            const nonZero = this.firstNumber === 0 ? new RouletteNumber(this.secondNumber) : new RouletteNumber(this.firstNumber);
+            const first = new RouletteNumber(this.firstNumber).displayCoords();
+            const second = new RouletteNumber(this.secondNumber).displayCoords();
+            return { x:(first.x + second.x) / 2, y: nonZero.displayCoords().y };
+        }
+
         const first = new RouletteNumber(this.firstNumber).displayCoords();
         const second = new RouletteNumber(this.secondNumber).displayCoords();
         return { x: (first.x + second.x) / 2, y: (first.y + second.y ) / 2 };

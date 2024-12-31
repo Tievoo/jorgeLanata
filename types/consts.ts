@@ -1,4 +1,4 @@
-export const ROULETTE_MIN = 20;
+export const ROULETTE_MIN = 10;
 
 export const RouletteNumberEmojis : Record<number, string> = {
     0: "<:0_:1315196027128643584>",
