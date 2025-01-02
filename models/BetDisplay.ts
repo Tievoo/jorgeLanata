@@ -3,12 +3,11 @@ import { Bet } from "../types/casino.types.ts";
 import { loadImage, createCanvas, Image } from "https://deno.land/x/canvas@v1.4.2/mod.ts";
 import { Buffer } from "node:buffer";
 import { AttachmentBuilder } from "discord.js";
-import { writeFileSync } from "node:fs"
 
 export type Coord = { x: number, y: number }
 
-const chips = ["chip0", "chip50", "chip100", "chip200", "chip500", "chip1000"]
-const chipAmounts = [0, 50, 100, 200, 500, 1000]
+const chips = ["chip0", "chip50", "chip100", "chip200", "chip500", "chip1000", "chip2000"]
+const chipAmounts = [0, 50, 100, 200, 500, 1000, 2000]
 
 export class BetDisplay {
     static BASE_NUMBER_POS = { x: 243, y: 130 }
