@@ -76,6 +76,7 @@ export class RouletteMiddle extends RouletteSlot {
     override readonly payout = 18;
     override readonly name = "Mitad";
     override readonly id = "middle";
+    override readonly maxBet: number = ROULETTE_MIN*50;
     constructor(firstNumber: number, secondNumber: number) {
         super();
         this.firstNumber = firstNumber;
